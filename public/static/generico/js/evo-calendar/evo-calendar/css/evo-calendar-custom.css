@@ -1,0 +1,22 @@
+tr.calendar-body .calendar-day .day
+{
+  width: 64px;
+  padding: 6px;
+  text-align: center;
+}
+
+.event-indicator
+{
+  margin-top: 1px;
+  width: fit-content;
+  max-width:  30px;
+  text-align: center;
+}
+
+.event-indicator > .type-bullet
+{
+  float: left;
+  padding: 0;
+  margin-top: 0px;
+  line-height:0;
+}

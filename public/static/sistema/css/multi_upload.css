@@ -1,0 +1,27 @@
+.brick
+{
+  float: left; margin-left: 10px; margin-bottom: 10px;
+  cursor:move;
+}
+
+.brick.small {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #999;
+  background-color: white;
+}
+
+.brick input, .brick textarea
+{
+  border: 1px solid #A1A1A1;
+}
+
+.btnDelete
+{
+  position: absolute; right: 0; top: 0;
+  width:22px; height: 22px;
+  cursor: pointer; font-size: 16px;
+  background-color: red;
+  text-align: center;
+  color: white;
+}

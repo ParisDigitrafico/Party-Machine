@@ -1,0 +1,92 @@
+header.header-desktop,
+header .menu-sidebar,
+.menu-sidebar,
+.logo,
+.others
+{
+  background-color: #005D48 !important;
+}
+
+.logo,
+.others
+{
+  border-color: #005D48 !important;
+}
+
+.navbar-sidebar .navbar__list li a,
+.others
+{
+  color: white;
+}
+
+.account-item > .menu__content > a,
+.others
+{
+  color: white !important;
+}
+
+.account-dropdown__item a:hover,
+.account-dropdown__footer a:hover,
+.others
+{
+  background-color: #005D48 !important;
+}
+
+.navbar-sidebar .navbar__list li a:hover,
+.navbar-sidebar .navbar__list li.active a,
+.others
+{
+  color: #E3E3E3;
+}
+
+.navbar-sidebar .navbar__list li.active a,
+.others
+{
+  text-decoration: underline;
+}
+
+.au-btn--blue,
+.ui-state-ryv-ajuste-close,
+.others
+{
+  background-color: #005D48 !important;
+}
+
+.btn-primary,
+.swal2-confirm,
+.others
+{
+  background-color: #008566 !important;
+}
+
+.noti__item i
+{
+  color: #E3E3E3 !important;
+}
+
+.vtabs nav a{
+  background-color: #005D48;
+}
+
+.calendar-sidebar,
+#eventListToggler,
+.calendar-sidebar > span#sidebarToggler
+{
+  background-color: #005D48;
+}
+
+.calendar-sidebar > .month-list > .calendar-months > li.active-month,
+.calendar-sidebar > .month-list > .calendar-months > li:hover
+{
+  background-color: #00382B;
+}
+
+.calendar-inner .calendar-table th[colspan="7"] {
+  color: #005D48;
+}
+
+/*.main-content,
+.others
+{
+  background-color: #F5FAF0 !important;
+}*/

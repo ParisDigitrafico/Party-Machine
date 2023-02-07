@@ -1,0 +1,102 @@
+header .menu-sidebar,
+.menu-sidebar,
+.logo,
+.others
+{
+  background-color: #09245F !important;
+}
+
+header.header-desktop,
+.others
+{
+  background-color: #09245F !important;
+  padding: 10px 0;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.menu-sidebar .logo,
+.others
+{
+  background-color: #FFF !important;
+  padding: 10px 0;
+  border: none !important;
+}
+
+.navbar-sidebar .navbar__list li a,
+.others
+{
+  color: white;
+}
+
+.account-item > .menu__content > a,
+.others
+{
+  color: white !important;
+}
+
+.account-dropdown__item a:hover,
+.account-dropdown__footer a:hover,
+.others
+{
+  background-color: #09245F !important;
+}
+
+.navbar-sidebar .navbar__list li a:hover,
+.navbar-sidebar .navbar__list li.active a,
+.others
+{
+  color: #E3E3E3;
+}
+
+.navbar-sidebar .navbar__list li.active a,
+.others
+{
+  text-decoration: underline;
+}
+
+.au-btn--blue,
+.ui-state-ryv-ajuste-close,
+.others
+{
+  background-color: #09245F !important;
+}
+
+.btn-primary,
+.swal2-confirm,
+.others
+{
+  background-color: #1557E5 !important;
+}
+
+.noti__item i
+{
+  color: #E3E3E3 !important;
+}
+
+.vtabs nav a{
+  background-color: #09245F;
+}
+
+.calendar-sidebar,
+#eventListToggler,
+.calendar-sidebar > span#sidebarToggler
+{
+  background-color: #09245F;
+}
+
+.calendar-sidebar > .month-list > .calendar-months > li.active-month,
+.calendar-sidebar > .month-list > .calendar-months > li:hover
+{
+  background-color: #09245F;
+}
+
+.calendar-inner .calendar-table th[colspan="7"] {
+  color: #09245F;
+}
+
+/*.main-content,
+.others
+{
+  background-color: #F5FAF0 !important;
+}*/

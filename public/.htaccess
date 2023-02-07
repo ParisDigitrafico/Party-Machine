@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+  <IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+  </IfModule>
+
+  <IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    #Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT"
+    #Header always set Access-Control-Allow-Headers "x-requested-with, Content-Type, origin, authorization, accept, client-security-token"
+  </IfModule>
+
+  RewriteEngine On
+
+  # Handle Authorization Header
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Add a trailing slash
+  RewriteCond %{REQUEST_URI} /+[^\.]+$
+  RewriteRule ^(.+[^/])$ %{REQUEST_URI}/ [R=301,L]
+
+  # Handle Front Controller...
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !^/static
+  RewriteCond %{REQUEST_URI} !^/uploads
+  RewriteRule ^ index.php [L]
+</IfModule>

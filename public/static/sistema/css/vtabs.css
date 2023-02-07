@@ -1,0 +1,107 @@
+.vtabs {
+  position: absolute;
+  margin: 0;
+  margin-left: -224px;
+  margin-top: 0;
+  width: 780px;
+}
+
+@media (max-width: 1200px){
+  .vtabs {
+    width: 99%;
+  }
+}
+
+@media (max-width: 992px){
+  .vtabs {
+    width: 99%;
+  }
+}
+
+@media (max-width: 768px){
+  .vtabs {
+    margin-left: 0;
+    margin-top: 0;
+    width: 99%;
+  }
+}
+
+.vtabs nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 180px;
+  box-shadow: -10px 5px 10px 0px #514747;
+}
+
+@media (max-width: 768px){
+  .vtabs nav {
+    flex-wrap: nowrap !important;
+    width: 250px;
+    box-shadow: none;
+  }
+}
+
+.vtabs nav a {
+  background: #008ABB;
+  color: #FFFFFF;
+  padding: 20px 6px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.vtabs nav a:hover,
+.vtabs nav a.selected {
+  background: #FFFFFF;
+  color: #060504;
+}
+
+@media (max-width: 768px){
+  .vtabs nav a {
+    border: 1px solid #008ABB;
+  }
+}
+
+.vtabs .item {
+  position: absolute;
+  top: 0px;
+  left: 150px;
+  bottom: 0;
+  padding: 20px 0px;
+  width: 100%;
+  transition: opacity 0.1s linear 0s;
+  display: none;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-left: 30px;
+  padding-top: 0;
+  border-bottom: 0;
+  padding-left: 45px;
+}
+
+.vtabs .item.visible {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .vtabs .item {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-left: -2px;
+    margin-bottom: -80px;
+    padding: 10px;
+    padding-left: 2px;
+    width: 101%;
+    height: calc(100% - 16px);
+  }
+
+  .area_input {
+    position: relative;
+  }
+}
+
+.scrollable {
+  overflow-x: hidden;
+}

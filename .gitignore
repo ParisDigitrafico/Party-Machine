@@ -1,0 +1,63 @@
+# Default Laravel #
+###################
+/node_modules
+/public/storage
+/storage/*.key
+/vendor
+.env
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+.well-known
+
+# Custom #
+##########
+/public_html
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.txt
+*.pdf
+!/database/sql/*.zip
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+error_log
+composer.lock
+.php-ini
+.php-version
+*.stackdump
+
+# IDE generated files #
+#########################
+*.csprj
+*.clpprj
