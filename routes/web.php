@@ -53,15 +53,6 @@ Route::prefix('sistema')->group(function(){
     Route::post('/{id}/action/{action}','Sistema\PaginasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
 
-  Route::prefix('faqs')->group(function(){
-    Route::get('/','Sistema\FaqsController@index');
-    Route::get('/{id}','Sistema\FaqsController@show')->where(['id' => '[0-9]+']);
-    Route::get('/search','Sistema\FaqsController@search');
-    Route::get('/paginate','Sistema\FaqsController@paginate');
-    Route::get('/form','Sistema\FaqsController@form');
-    Route::post('/save','Sistema\FaqsController@save');
-    Route::post('/{id}/action/{action}','Sistema\FaqsController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
-  });
 
   Route::prefix('banners')->group(function(){
     Route::get('/','Sistema\BannersController@index');
@@ -84,13 +75,13 @@ Route::prefix('sistema')->group(function(){
   });
 
   Route::prefix('plantillas')->group(function(){
-    Route::get('/','Sistema\TiposVisasController@index');
-    Route::get('/{id}','Sistema\TiposVisasController@show')->where(['id' => '[0-9]+']);
-    Route::get('/search','Sistema\TiposVisasController@search');
-    Route::get('/paginate','Sistema\TiposVisasController@paginate');
-    Route::get('/form','Sistema\TiposVisasController@form');
-    Route::post('/save','Sistema\TiposVisasController@save');
-    Route::post('/{id}/action/{action}','Sistema\TiposVisasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
+    Route::get('/','Sistema\PlantillasController@index');
+    Route::get('/{id}','Sistema\PlantillasController@show')->where(['id' => '[0-9]+']);
+    Route::get('/search','Sistema\PlantillasController@search');
+    Route::get('/paginate','Sistema\PlantillasController@paginate');
+    Route::get('/form','Sistema\PlantillasController@form');
+    Route::post('/save','Sistema\PlantillasController@savecustom');
+    Route::post('/{id}/action/{action}','Sistema\PlantillasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
 
   Route::prefix('logs')->group(function(){

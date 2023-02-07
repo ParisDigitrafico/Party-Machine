@@ -463,7 +463,7 @@ class LoginController extends Controller
     }
     else
     {
-      return view('cliente.login.register_form', $response)->render();
+      return view('cliente.pages.login.register_form', $response)->render();
     }
 
   }
