@@ -137,6 +137,8 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
     Route::get('/aviso-privacidad','Website\HomeController@avisoprivacidad');
     Route::get('/thank-you','Website\HomeController@thankyou');
 
+    Route::get('/plantillas','Website\HomeController@plantillas');
+
     Route::prefix('/servicios')->group(function(){
       // Route::get('/primeravez','Website\HomeController@primeravez');
       // Route::get('/perdon','Website\HomeController@perdon');
