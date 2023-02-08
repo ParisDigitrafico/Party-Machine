@@ -58,13 +58,15 @@ class LoginController extends Controller
     session()->flush();
     session()->save();
 
-    $objFbazar = new FbazarService();
+    $objUsuario = new AccUsuario();
 
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_id($idcliente);
+    $AuxResponse = $objUsuario->where('es_cliente' == 1 );
 
-    if($apiResponse["code"] == 200)
+    var_dump($AuxResponse);
+
+    if($AuxResponse["code"] == 200)
     {
-      $data = $apiResponse["data"];
+      $data = $AuxResponse["data"];
 
       $cFilename = storage_path('app/clientes/'. $data["id"] .'.txt');
 
@@ -72,11 +74,11 @@ class LoginController extends Controller
       {
         $cPassword = customDecrypt(file_get_contents($cFilename, true));
 
-        $apiResponse = $objFbazar->get_cliente_ecommerce_by_email_password($data["email"], $cPassword);
+        $AuxResponse = $objUsuario->where('pass')($data["email"], $cPassword);
 
-        if($apiResponse["code"] == 200)
+        if($AuxResponse["code"] == 200)
         {
-          $data = $apiResponse["data"];
+          $data = $AuxResponse["data"];
 
           session()->put('app', $this->app);
           session()->put('cliente_id', $data["id"]);
@@ -98,44 +100,21 @@ class LoginController extends Controller
   {
     $response = array();
 
-    $objFbazar = new FbazarService();
+    $objUsuario    = new AccUsuario();
+    $objCtrlSesion = new AccControlSesion;
 
-    $cEmail    = request()->get("email");
-    $cPassword = request()->get("password");
+    $cEmail    = $request->get("email");
+    $cPassword = $request->get("password");
 
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_email_password($cEmail, $cPassword);
+    $usuario = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();
 
-    if($apiResponse["code"] == 200)
+    if($usuario)
     {
-      $data = $apiResponse["data"];
-
-      $cDir     = "app/clientes";
-      $cDirPath = storage_path($cDir);
-
-      if(!is_dir($cDirPath))
-        @mkdir($cDirPath, 0755, true);
-
-      $cFilename = $cDirPath .'/'. $data["id"] .'.txt';
-
-      $cEncryptedPswd = customEncrypt($cPassword);
-
-      File::put($cFilename, $cEncryptedPswd);
-
       session()->put('app', $this->app);
-      session()->put('cliente_id', $data["id"]);
-      session()->put('cliente_email', $data["email"]);
-      session()->put('cliente_nombre', $data["name"]);
-      session()->put('cliente_pswd', sha1($cPassword));
+      session()->put('cliente_id', $usuario->id);
+      session()->put('cliente_user', $usuario->user);
 
       session()->save();
-
-      if(request()->has("rememberme"))
-      {
-        $iMinutes = 60 * 24 * 30;
-
-        Cookie::queue(Cookie::make('app', $this->app, $iMinutes, null, null, true));
-        Cookie::queue(Cookie::make('uid', $data["id"], $iMinutes, null, null, true));
-      }
 
       return redirect()->to("/cliente/");
     }
@@ -149,14 +128,14 @@ class LoginController extends Controller
 
     if($request->isMethod('post'))
     {
-      $objFbazar  = new FbazarService();
+      $objUsuario  = new AccUsuario();
       $objConfirm = new AccConfirmarCuenta;
 
       $cEmail = trim(strtolower($request->get("email")));
 
-      $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($cEmail);
+      $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($cEmail);
 
-      if($apiResponse["code"] == 200)
+      if($AuxResponse["code"] == 200)
       {
         $confirmacion = $objConfirm->where("email", $cEmail)
                                               ->where("tipo","CLIENTE")->where("status",0)
@@ -218,7 +197,7 @@ class LoginController extends Controller
   {
     $response = array();
 
-    $objFbazar  = new FbazarService();
+    $objUsuario  = new AccUsuario();
     $objConfirm = new AccConfirmarCuenta;
 
     $confirmacion = $objConfirm->where("ckey", $ckey)->where("tipo", "CLIENTE")
@@ -242,20 +221,20 @@ class LoginController extends Controller
       }
       else
       {
-        $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($confirmacion->email);
+        $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
 
-        if($apiResponse["code"] == 200)
+        if($AuxResponse["code"] == 200)
         {
-          $Dato = $apiResponse["data"];
+          $Dato = $AuxResponse["data"];
 
           $cUser = $confirmacion->email;
           $cPass = get_random_string(8);
 
           $Dato["password"] = $cPass;
 
-          $apiResponse = $objFbazar->put_cliente_ecommerce($Dato);
+          $AuxResponse = $objUsuario->put_cliente_ecommerce($Dato);
 
-          if($apiResponse["code"] == 200)
+          if($AuxResponse["code"] == 200)
           {
             $response["message"] = "<p style='text-align: center;'>Estimado(a) <b>".$Dato["name"]."</b>, por seguridad
               te proporcionamos una <b>contraseña aleatoria</b> que le permitira acceder a su cuenta,
@@ -338,13 +317,13 @@ class LoginController extends Controller
       Validator::make($request->all(), $rules)->setAttributeNames($message)->validate();*/
 
       $objConfirm = new AccConfirmarCuenta;
-      $objFbazar  = new FbazarService();
+      $objUsuario  = new AccUsuario();
 
       $cEmail = trim(strtolower(request()->get("email")));
 
-      $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($cEmail);
+      $AuxResponse = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();   
 
-      if($apiResponse["code"] == 200)
+      if($AuxResponse["code"] == 200)
       {
         $response["code"]    = 500;
         $response["message"] = "Este correo electrónico ya ha sido registrado previamente, favor de verificar.";
@@ -363,7 +342,7 @@ class LoginController extends Controller
 
           $Mensaje["to"] = $cEmail;
 
-          $Mensaje["subject"] = "Validación de correo electronico Farmacias Bazar";
+          $Mensaje["subject"] = "Validación de correo electronico Party Machine";
 
           $Mensaje["header"] = "<h2><center>Instrucciones</center></h2>";
 
@@ -414,7 +393,7 @@ class LoginController extends Controller
 
               $Mensaje["to"] = $cEmail;
 
-              $Mensaje["subject"] = "Validación de correo electronico Farmacias Bazar";
+              $Mensaje["subject"] = "Validación de correo electronico Party Machine";
 
               $Mensaje["header"] = "<h2><center>Instrucciones</center></h2>";
 
@@ -473,7 +452,7 @@ class LoginController extends Controller
     $response = array();
 
     $objConfirm = new AccConfirmarCuenta;
-    $objFbazar  = new FbazarService();
+    $objUsuario  = new AccUsuario();
 
     $confirmacion = $objConfirm->where("ckey", $ckey)->where("tipo", "CLIENTE")
                         ->whereRaw(" created_at >= DATE_SUB(STR_TO_DATE('".now()."','%Y-%m-%d %H:%i:%s'), INTERVAL 24 HOUR) ")->first();
@@ -487,9 +466,9 @@ class LoginController extends Controller
       }
       else
       {
-        $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($confirmacion->email);
+        $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
 
-        if($apiResponse["code"] == 200)
+        if($AuxResponse["code"] == 200)
         {
           $response["code"]    = 200;
           $response["message"] = "Este correo electrónico ya ha sido registrado previamente, favor de verificar.";
@@ -507,9 +486,9 @@ class LoginController extends Controller
           $Dato["phone"]    = $confirmacion->phone;
           $Dato["password"] = $confirmacion->pswd;
 
-          $apiResponse = $objFbazar->post_cliente_ecommerce($Dato);
+          $AuxResponse = $objUsuario->post_cliente_ecommerce($Dato);
 
-          if($apiResponse["code"] == 200)
+          if($AuxResponse["code"] == 200)
           {
             $confirmacion->pswd   = "";
             $confirmacion->status = 1;
@@ -553,7 +532,7 @@ class LoginController extends Controller
   {
     try
     {
-      $objFbazar = new FbazarService();
+      $objUsuario = new AccUsuario();
 
       $user = Socialite::driver($provider)->user();
 
@@ -569,11 +548,11 @@ class LoginController extends Controller
       $user->getEmail();
       $user->getAvatar();*/
 
-      $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($user->email);
+      $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($user->email);
 
-      if($apiResponse["code"] == 200)
+      if($AuxResponse["code"] == 200)
       {
-        $data = $apiResponse["data"];
+        $data = $AuxResponse["data"];
 
         $cDir     = "app/clientes";
         $cDirPath = storage_path($cDir);
@@ -606,7 +585,7 @@ class LoginController extends Controller
 
         return redirect()->to('/cliente/');
       }
-      elseif($apiResponse["code"] == 404)
+      elseif($AuxResponse["code"] == 404)
       {
         $Dato = array();
 
@@ -615,13 +594,13 @@ class LoginController extends Controller
         $Dato["phone"]    = "";
         $Dato["password"] = get_random_string();
 
-        $apiResponse = $objFbazar->post_cliente_ecommerce($Dato);
+        $AuxResponse = $objUsuario->post_cliente_ecommerce($Dato);
 
-        if($apiResponse["code"] == 200)
+        if($AuxResponse["code"] == 200)
         {
-          $apiResponse = $objFbazar->get_cliente_ecommerce_by_email($Dato["email"]);
+          $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($Dato["email"]);
 
-          $data = $apiResponse["data"];
+          $data = $AuxResponse["data"];
 
           $cDir     = "app/clientes";
           $cDirPath = storage_path($cDir);

@@ -27,36 +27,36 @@
 
                             <!-- <p> Información Personal</p> -->
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3 mt-3">
                                 <input type="text" class="form-control form-control-lg" name="email"
                                     value="{{ old('email') }}" placeholder="Correo Electrónico"
                                     data-validetta="required,email" style="" />
                             </div>
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3">
                                 <input type="text" class="form-control form-control-lg" name="name"
                                     value="{{ old('name') }}" placeholder="Nombre"
                                     data-validetta="required,minLength[3]" style="" />
                             </div>
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3">
                                 <input type="text" class="form-control form-control-lg" name="lastname"
                                     placeholder="Apellidos" data-validetta="required,minLength[3]" style="" />
                             </div>
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3">
                                 <input type="text" class="form-control form-control-lg noSpace" name="phone"
                                     placeholder="Teléfono" maxlength="10"
                                     data-validetta="required,minLength[10],maxLength[10],number" style="" />
                             </div>
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3">
                                 <input type="password" class="form-control form-control-lg noSpace" name="pswd"
                                     id="txtPswd" placeholder="Contraseña" data-validetta="required,minLength[8]"
                                     style="" />
                             </div>
 
-                            <div class="form-outline">
+                            <div class="form-outline mb-3">
                                 <input type="password" class="form-control form-control-lg noSpace" id="txtConfirmPswd"
                                     placeholder="Confirmar Contraseña"
                                     data-validetta="required,equalTo[pswd],minLength[8]" style="" />
@@ -65,10 +65,7 @@
                             <div class="text-lg-start">
                                 <!--  <button type="submit" class="btn btn-primary btn-lg" id="btnSubmit"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Registrarme</button> -->
-
-                                <a class="btn btn-primary btn-lg">
-                                    <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
-                                </a>
+                                    <button type="submit" class="btn btn-primary btn-lg" style="padding: .5rem 2rem;">Registrarme</button>
                             </div>
 
                         </form>

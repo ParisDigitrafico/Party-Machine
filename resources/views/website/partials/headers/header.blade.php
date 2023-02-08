@@ -53,7 +53,7 @@
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-twitter"></i></a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-linkedin-in"></i></a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/"><i class="fas fa-sign-in-alt"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/" title="Sign In"><i class="fas fa-sign-in-alt"></i></a>
             </div>
         </div>
     </nav>
