@@ -11,6 +11,7 @@ use App\Helpers\Normalizador;
 use App\Models\AccUsuario;
 
 use App\Models\WebPagina;
+use App\Models\SppPlantilla;
 
 use App\Models\GenCategoria;
 
@@ -213,6 +214,8 @@ public function emergencia(Request $request)
     $response["page_title"] = $pagina->nombre;
     
     $response["pagina"] = $pagina;
+
+    $response["data"] = SppPlantilla::filterStatus(1)->get();
 
     return view('website.pages.plantillas', $response)->render();
   }
