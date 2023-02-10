@@ -14,7 +14,7 @@
 data-title="Buscar {{ $name }}"
 data-buscar="{!! (!empty($b = request()->get('b')) ? http_build_query(['b'=>$b]) : '') !!}">Buscar</a>
 
-@if(in_array("C_TIPOVISA", session("permisos")))
+@if(in_array("C_PLANTILLA", session("permisos")))
 <a href="#" class="au-btn au-btn-icon au-btn--blue au-btn--small btnOpenPanelForm"
 data-id=""
 data-title="Agregar {{ $name }}">
@@ -67,7 +67,7 @@ data-title="Agregar {{ $name }}">
 $(document).ready(function(){
   var $content = $(".content").first();
 
-  var cUrlController = "/sistema/tiposvisas";
+  var cUrlController = "/sistema/plantillas";
 
   var $dtBase = $content.find('.tblBase').DataTable({
     responsive: true,

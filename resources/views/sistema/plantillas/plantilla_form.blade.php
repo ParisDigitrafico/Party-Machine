@@ -6,6 +6,26 @@
 
 <div class="row">
 
+<div class="col-10 col-lg-8">
+<div class="form-group">
+<label class="form-control-label">*Categoría</label>
+<select name="Dato[categoria_id]" class="form-control">
+<option value="">-- Seleccione --</option>
+@foreach($data->getCategorias($data->categoria_id) as $item)
+<option value="{{ $item->id }}" <?= validate_selection($item->id, $data->categoria_id) ?>>{{ $item->nombre }}</option>
+@endforeach
+</select>
+</div>
+</div>
+
+<div class="col-10 col-lg-8">
+<div class="form-group">
+<label class="form-control-label">Clave*</label>
+<input type="text" name="Dato[clave]" value="{{ $data->clave }}" class="form-control required"
+data-msg-required="Campo <b>Clave</b> obligatorio."
+style="" />
+</div>
+</div>
 
 <div class="col-10 col-lg-8">
 <div class="form-group">
@@ -23,6 +43,40 @@ style="" />
 data-msg-required="Campo <b>Descripción</b> obligatorio."
 cols="30" rows="3" style="" >{{ $data->descripcion }}</textarea>
 </div>
+</div>
+
+<div class="col-10 col-lg-11">
+<div class="area_multi_upload" style="width: 96%;">
+<div class="filelist"
+     data-input="arrPhoto"
+     data-input-name="nombre"
+     data-input-name-en="nombre_en"
+     data-input-description="descripcion"
+     data-input-description-en="descripcion_en"
+     data-extension-valid="jpg,jpeg,png,gif"
+     style="margin-left: -10px;">
+
+@if(!empty($arrAux = $data->photos()))
+@foreach($arrAux as $item)
+<div class="item" data-id="{{ $item->id }}"
+                  data-value-name="{{ $item->nombre }}"
+                  data-value-name-en="{{ $item->nombre_en }}"
+                  data-value-description="{{ $item->descripcion }}"
+                  data-value-description-en="{{ $item->descripcion_en }}"
+                  data-url="{{ $item->url }}"
+style=""></div>
+@endforeach
+@endif
+</div>
+
+<div class="clearfix"></div>
+
+<div class="upload_input" style="padding: 20px 10px; border: 2px dotted;"></div>
+<div class="progress" style="margin-top: 10px; display: none;">
+<div class="progress-bar" role="progressbar" style="width: 25%"></div>
+</div>
+</div>
+<br>
 </div>
 
 @if(!empty($data->id))

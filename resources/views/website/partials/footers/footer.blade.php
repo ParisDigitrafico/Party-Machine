@@ -3,7 +3,7 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-md-6">
-                    <h1 class="text-white mb-4"><img class="img-fluid me-3" src="img/icon/icon-02-light.png" alt="">AirCon</h1>
+                    <h1 class="text-white mb-4"><img class="img-fluid me-3" src="img/icon/icon-02-light.png" alt="">Party Machine</h1>
                     <span>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</span>
                 </div>
                 <div class="col-md-6">
@@ -28,11 +28,14 @@
                     <a class="btn btn-link" href="">Annual Inspections</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
+                    <h5 class="text-light mb-4">Valores</h5>
+                    <ul>
+                      <li>Innovacion</li>
+                    <li>Seguridad</li>
+                    <li>Honestidad</li>
+                    <li>Sofisticación</li>
+                    </ul>
+
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Follow Us</h5>
