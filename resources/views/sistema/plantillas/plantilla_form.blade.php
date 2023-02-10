@@ -8,6 +8,18 @@
 
 <div class="col-10 col-lg-8">
 <div class="form-group">
+<label class="form-control-label">*Categoría</label>
+<select name="Dato[categoria_id]" class="form-control">
+<option value="">-- Seleccione --</option>
+@foreach($data->getCategorias($data->categoria_id) as $item)
+<option value="{{ $item->id }}" <?= validate_selection($item->id, $data->categoria_id) ?>>{{ $item->nombre }}</option>
+@endforeach
+</select>
+</div>
+</div>
+
+<div class="col-10 col-lg-8">
+<div class="form-group">
 <label class="form-control-label">Clave*</label>
 <input type="text" name="Dato[clave]" value="{{ $data->clave }}" class="form-control required"
 data-msg-required="Campo <b>Clave</b> obligatorio."

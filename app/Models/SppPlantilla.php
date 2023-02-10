@@ -10,5 +10,10 @@ class SppPlantilla extends SuperModel
   protected $table      = 'spp_plantilla';
   protected $primaryKey = 'id';
 
-  protected $columnRelArchivo = "idplantilla"; 
+  protected $columnRelArchivo = "plantilla_id";
+
+  public function categorias()
+  {
+    return $this->hasOne(GenCategoria::class, "id", "categoria_id");
+  }
 }

@@ -12,6 +12,7 @@ use App\Models\AccPerfil;
 use App\Models\AccPermiso;
 
 use App\Models\SppPlantilla;
+use App\Models\GenCategoria; 
 
 class PlantillasController extends MController
 {
@@ -124,6 +125,7 @@ class PlantillasController extends MController
         $elem["clave"]      = $Dato["clave"];
         $elem["nombre"]      = $Dato["nombre"];
         $elem["descripcion"] = $Dato["descripcion"];
+        $elem["categoria"] = GenCategoria::withTrashed()->find($Dato["categoria_id"])->nombre;
 
         $elem["fecha"]    = FechaEspaniol($Dato["created_at"],true)."&nbsp;hrs";
         $elem["creador"]  = intval($Dato["created_by"]) == 0 ? "N/A" : AccUsuario::ObtenerNombreCompletoById($Dato["created_by"]);

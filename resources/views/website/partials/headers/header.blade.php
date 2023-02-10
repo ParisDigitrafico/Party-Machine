@@ -14,9 +14,8 @@
             <div class="col-lg-5 px-5 text-end">
                 <ol class="breadcrumb justify-content-end mb-0">
                     <li class="breadcrumb-item"><a class="text-white-50 small" href="/">Inicio</a></li>
-                    <li class="breadcrumb-item"><a class="text-white-50 small" href="#">Terms</a></li>
-                    <li class="breadcrumb-item"><a class="text-white-50 small" href="#">Privacy</a></li>
-                    <li class="breadcrumb-item"><a class="text-white-50 small" href="#">Support</a></li>
+                    <li class="breadcrumb-item"><a class="text-white-50 small" href="#">Quienes Somos</a></li>
+                    <li class="breadcrumb-item"><a class="text-white-50 small" href="#">Contacto</a></li>
                 </ol>
             </div>
         </div>
@@ -49,10 +48,7 @@
                 @endforeach
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/" title="Sign In"><i class="fas fa-sign-in-alt"></i></a>
             </div>
         </div>
