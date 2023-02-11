@@ -5,14 +5,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SppPlantilla extends SuperModel
+class SppProducto extends SuperModel
 {
-  protected $table      = 'spp_plantilla';
+  protected $table      = 'spp_producto';
   protected $primaryKey = 'id';
 
-  protected $columnRelArchivo = "plantilla_id";
+  protected $columnRelArchivo = "producto_id";
 
-  public function categorias()
+  public function categoria()
   {
     return $this->hasOne(GenCategoria::class, "id", "categoria_id");
   }

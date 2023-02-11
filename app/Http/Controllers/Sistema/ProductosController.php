@@ -11,16 +11,16 @@ use App\Models\AccModulo;
 use App\Models\AccPerfil;
 use App\Models\AccPermiso;
 
-use App\Models\SppPlantilla;
-use App\Models\GenCategoria; 
+use App\Models\SppProducto;
+use App\Models\GenCategoria;
 
-class PlantillasController extends MController
+class ProductosController extends MController
 {
   public function __construct()
   {
     parent::__construct();
 
-    $this->base_object = new SppPlantilla;
+    $this->base_object = new SppProducto;
 
     $this->name = "Plantillas";
 
@@ -69,7 +69,7 @@ class PlantillasController extends MController
     tbl.*,
     1
     FROM
-    spp_plantilla tbl
+    spp_producto tbl
     WHERE 1=1
     ";
 
@@ -199,7 +199,7 @@ class PlantillasController extends MController
 
     $id = $request->get("id");
 
-    $objBase = new SppPlantilla;
+    $objBase = new SppProducto;
 
     if(!empty($id))
     {
@@ -234,7 +234,7 @@ class PlantillasController extends MController
 
     $response["message"] = "No tienes los permisos suficientes.";
 
-    $objBase = new SppPlantilla;
+    $objBase = new SppProducto;
 
     switch($action)
     {

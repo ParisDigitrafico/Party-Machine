@@ -205,20 +205,7 @@ public function emergencia(Request $request)
     return view('website.pages.thank-you', $response)->render();
   }
 
-  public function plantillas(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","PLANTILLAS")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    $response["data"] = SppPlantilla::filterStatus(1)->get();
-
-    return view('website.pages.plantillas', $response)->render();
-  }
+  
 
 }
 

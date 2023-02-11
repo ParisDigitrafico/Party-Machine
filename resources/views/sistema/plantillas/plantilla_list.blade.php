@@ -67,7 +67,7 @@ data-title="Agregar {{ $name }}">
 $(document).ready(function(){
   var $content = $(".content").first();
 
-  var cUrlController = "/sistema/plantillas";
+  var cUrlController = "/sistema/productos";
 
   var $dtBase = $content.find('.tblBase').DataTable({
     responsive: true,
