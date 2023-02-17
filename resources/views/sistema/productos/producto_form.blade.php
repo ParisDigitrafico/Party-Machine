@@ -20,6 +20,17 @@
 
 <div class="col-10 col-lg-8">
 <div class="form-group">
+<label class="form-control-label">*Tipo</label>
+<select name="Dato[tipo]" class="form-control">
+<option value="">-- Seleccione --</option>
+<option value="plantilla" <?= validate_selection($data->tipo, "plantilla") ?>>Plantilla</option>
+<option value="sitioweb" <?= validate_selection($data->tipo, "sitioweb") ?>>Sitio Web</option>
+</select>
+</div>
+</div>
+
+<div class="col-10 col-lg-8">
+<div class="form-group">
 <label class="form-control-label">Clave*</label>
 <input type="text" name="Dato[clave]" value="{{ $data->clave }}" class="form-control required"
 data-msg-required="Campo <b>Clave</b> obligatorio."

@@ -16,4 +16,27 @@ class SppProducto extends SuperModel
   {
     return $this->hasOne(GenCategoria::class, "id", "categoria_id");
   }
+
+  public function obtenerArrIdCategoriaPorTipo($cTipo='plantilla')
+  {
+    $response = array();
+
+    $objProducto = new SppProducto();
+
+    $productos = $objProducto->filterActivos()->where('tipo',$cTipo)->get();
+
+    if($productos->count() > 0)
+    {
+      foreach($productos as $producto)
+      {
+        $response[] = $producto->categoria_id;
+      }
+
+      $response = array_unique($response);
+    }
+
+    return $response;
+  }
+
+
 }

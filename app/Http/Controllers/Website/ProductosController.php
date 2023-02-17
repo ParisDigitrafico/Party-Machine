@@ -32,15 +32,7 @@ class ProductosController extends MController
 
     $response["data"] = SppProducto::filterStatus(1)->get();
 
-    return view('website.pages.plantillas', $response)->render();
-  }
-
-
-
-  public function search(Request $request)
-  {
-    $categoria = GenCategoria::all();
-    exit(var_dump($categoria));
+    return view('website.pages.productos', $response)->render();
   }
 
 }

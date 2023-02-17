@@ -22,15 +22,15 @@ class ProductosController extends MController
 
     $this->base_object = new SppProducto;
 
-    $this->name = "Plantillas";
+    $this->name = "Productos";
 
-    $this->permision_key    = "PLANTILLA";
+    $this->permision_key    = "PRODUCTO";
     $this->permision_create = "C_" . $this->permision_key;
     $this->permision_read   = "R_" . $this->permision_key;
     $this->permision_update = "U_" . $this->permision_key;
     $this->permision_delete = "D_" . $this->permision_key;
 
-    $this->view_key    = "sistema.plantillas.plantilla";
+    $this->view_key    = "sistema.productos.producto";
     $this->view_list   = $this->view_key . "_list";
     $this->view_search = $this->view_key . "_search";
     $this->view_form   = $this->view_key . "_form";
@@ -39,11 +39,11 @@ class ProductosController extends MController
 
   public function index(Request $request)
   {
-    if(find_string_in_array('_PLANTILLA', session("permisos")))
+    if(find_string_in_array('_PRODUCTO', session("permisos")))
     {
       $response = array();
 
-      $response["title"] = AccModulo::ObtenerTitulo("M_PLANTILLAS");
+      $response["title"] = AccModulo::ObtenerTitulo("M_PRODUCTOS");
       $response["name"]  = $this->name;
 
       return view($this->view_list, $response)->render();

@@ -27,16 +27,7 @@
                     <a class="btn btn-link" href="">Heating Services</a>
                     <a class="btn btn-link" href="">Annual Inspections</a>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Valores</h5>
-                    <ul>
-                      <li>Innovacion</li>
-                    <li>Seguridad</li>
-                    <li>Honestidad</li>
-                    <li>Sofisticación</li>
-                    </ul>
-
-                </div>
+    
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Follow Us</h5>
                     <div class="d-flex">

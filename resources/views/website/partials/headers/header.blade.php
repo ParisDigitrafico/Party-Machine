@@ -1,5 +1,5 @@
       <!-- Topbar Start -->
-    <div class="container-fluid bg-dark text-white-50 py-2 px-0 d-none d-lg-block">
+    <!--<div class="container-fluid bg-dark text-white-50 py-2 px-0 d-none d-lg-block">
         <div class="row gx-0 align-items-center">
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center me-4">
@@ -19,12 +19,12 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Topbar End -->
 
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-light sticky-top px-4 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex align-items-center">
            <img src="/static/sistema/images/logo.png"class="img-fluid" alt="Sample image">
         </a>
