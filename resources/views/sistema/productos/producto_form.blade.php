@@ -47,6 +47,15 @@ style="" />
 </div>
 </div>
 
+<div class="col-10 col-lg-8">
+<div class="form-group">
+<label class="form-control-label">Precio*</label>
+<input type="text" name="Dato[precio]" value="{{ $data->precio }}" class="form-control required"
+data-msg-required="Campo <b>Precio</b> obligatorio."
+style="" />
+</div>
+</div>
+
 <div class="col-10 col-lg-10">
 <div class="form-group">
 <label class="form-control-label">Descripción</label>

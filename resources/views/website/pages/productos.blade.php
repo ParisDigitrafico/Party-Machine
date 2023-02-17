@@ -46,30 +46,24 @@
             <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
                 id="navbar-vertical">
 
-                <!-- <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                    @foreach($categorias as $item)
-                    <a href="" class="nav-item nav-link">{{ $item->nombre }}</a>
-                    @endforeach
-                </div> -->
+                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-none text-white w-100"
+                    data-toggle="collapse" href="#list-plantillas"
+                    style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                    <h6 class="m-0">Plantillas</h6>
+                    <i class="fa fa-angle-down text-dark"></i>
+                </a>
+                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border-top-0 border-bottom-0"
+                    id="list-plantillas">
 
-                    <a class="btn shadow-none d-flex align-items-center justify-content-between bg-none text-white w-100"
-                        data-toggle="collapse" href="#list-plantillas"
-                        style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                        <h6 class="m-0">Plantillas</h6>
-                        <i class="fa fa-angle-down text-dark"></i>
-                    </a>
-                    <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border-top-0 border-bottom-0"
-                        id="list-plantillas">
-
-                        <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                            <a href="/productos/plantilla" class="nav-item nav-link">Todos</a>
-                            @foreach($categorias as $item)
-                            <a href="" class="nav-item nav-link">{{ $item->nombre }}</a>
-                            @endforeach
-                        </div>
-                    </nav>
-                </div>
-            </nav>
+                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                        <a href="/productos/plantilla" class="nav-item nav-link">Todos</a>
+                        @foreach($categorias as $item)
+                        <a href="" class="nav-item nav-link">{{ $item->nombre }}</a>
+                        @endforeach
+                    </div>
+                </nav>
+        </div>
+        </nav>
 
 
         <!-- <div class="col-3">
@@ -89,7 +83,7 @@
         <div class="col-9">
             <div class="row">
                 @foreach($data as $item)
-                <div class="card card_product" style="width: 16rem;padding: 0;margin: 1rem 1rem;border: none;">
+                <div class="card card_producto_" style="width: 16rem;padding: 0;margin: 1rem 1rem;border: none;">
                     <div class="card-img">
                         <img class="card-img-top img-fluid" src="{{ $item->photo()->url}}" alt="Foto">
                     </div>
@@ -97,12 +91,16 @@
                     <div class="card-container">
                         <div class="card-info">
                             <div style="padding-bottom: 6px;">{{ $item->nombre }}</div>
-                            <div style="letter-spacing: 1;color: black;">$16.64</div>
+                            <div style="letter-spacing: 1;color: black;">${{ $item->precio }}</div>
                         </div>
 
                         <div class="icon_cart">
-                            <a href="" class="btn btnAddCarrito" style="padding-top: 1rem;"><i
-                                    class="fas fa-shopping-cart" aria-hidden="true"></i></a>
+                            <!-- <a href="" class="btn btnAddCarrito" style="padding-top: 1rem;"><i
+                                    class="fas fa-shopping-cart"></i></a> -->
+                                    
+                            <a href="#" class="btn btnAddCarrito" data-loading=""
+                                data-producto-id="{{ $item['id'] }}"><span><i
+                                    class="fas fa-shopping-cart"></i></span></a>
                         </div>
                     </div>
 
@@ -113,5 +111,18 @@
 
     </div>
 </div>
+
+@endpush
+
+@push("js")
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $(".btnAddCarrito").click(function() {
+        alert("ok");
+    })
+});
+</script>
 
 @endpush

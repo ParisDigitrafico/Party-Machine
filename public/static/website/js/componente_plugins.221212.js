@@ -13,7 +13,7 @@ var componente_plugins = (function($, pub)
   {
     callback = callback || "";
 
-    xhr = $.get("/api/v1/pedidos/"+ ckeypedido, {}, null, 'json');
+    xhr = $.get("/pedidos/"+ ckeypedido, {}, null, 'json');
 
     xhr.done(function(response){
       if(typeof callback === 'function')
@@ -27,7 +27,7 @@ var componente_plugins = (function($, pub)
   {
     callback = callback || "";
 
-    xhr = $.post("/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/", {}, null, 'json');
+    xhr = $.post("/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/", {}, null, 'json');
 
     xhr.done(function(response){
       if(typeof callback === 'function')
@@ -47,7 +47,7 @@ var componente_plugins = (function($, pub)
   {
     var xhr = $.ajax({
       type: "put",
-      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/",
+      url: "/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/",
       dataType: "json",
     });
 
@@ -63,7 +63,7 @@ var componente_plugins = (function($, pub)
   {
     var xhr = $.ajax({
       type: "delete",
-      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
+      url: "/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
       dataType: "json",
     });
 
@@ -87,7 +87,7 @@ var componente_plugins = (function($, pub)
     }
     else
     {
-      xhr = $.post('/api/v1/pedidos/', {}, null, 'json');
+      xhr = $.post('/pedidos/', {}, null, 'json');
 
       xhr.done(function(response){
         util.setStorage("ckeypedido", response.data.ckey, (24*60));
@@ -190,7 +190,7 @@ var componente_plugins = (function($, pub)
 
     if(ckeypedido.length == 0)
     {
-      ajx = $.post('/api/v1/pedidos/', {}, null, 'json');
+      ajx = $.post('/pedidos/', {}, null, 'json');
 
       ajx.done(function(response, textStatus, xhr){
         if(xhr.status == 201)

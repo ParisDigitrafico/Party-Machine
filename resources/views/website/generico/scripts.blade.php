@@ -13,4 +13,12 @@
 
 
 <!-- Template Javascript -->
-<script src="/static/website/template/aircon/custom_js/main.js"></script>
+<script src="/static/website/js/componente_plugins.221212.js"></script>
+<script src="/static/generico/js/componente.220116.js"></script>
+<script src="/static/generico/js/util.220116.js"></script>
+
+<script src="/static/generico/js/jquery-1.11.1.min.js"></script>
+<script src="/static/generico/js/jquery-3.3.1.min.js"></script>
+
+
+

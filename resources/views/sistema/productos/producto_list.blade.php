@@ -82,6 +82,7 @@ $(document).ready(function(){
       { "data": "opt", "orderable":false, "className":"d-none d-md-revert" },
 
       { "data": "nombre", "orderable":false, },
+      { "data": "precio", "orderable":false, },
       { "data": "descripcion", "orderable":false, },
 
       { "data": "fecha", "orderable":false, },

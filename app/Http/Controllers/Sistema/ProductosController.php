@@ -122,9 +122,10 @@ class ProductosController extends MController
         $elem["id"]       = $elem["DT_RowId"];
         $elem["opt"]      = '<input class="optreg" id="opt_'.$Dato["id"].'" type="checkbox">';
 
-        $elem["clave"]      = $Dato["clave"];
-        $elem["nombre"]      = $Dato["nombre"];
-        $elem["descripcion"] = $Dato["descripcion"];
+        $elem["clave"]        = $Dato["clave"];
+        $elem["nombre"]       = $Dato["nombre"];
+        $elem["descripcion"]  = $Dato["descripcion"];
+        $elem["precio"]       = $Dato["precio"];
         $elem["categoria"] = GenCategoria::withTrashed()->find($Dato["categoria_id"])->nombre;
 
         $elem["fecha"]    = FechaEspaniol($Dato["created_at"],true)."&nbsp;hrs";

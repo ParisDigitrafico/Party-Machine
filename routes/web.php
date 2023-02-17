@@ -116,6 +116,11 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::get('/reset/{ckey}','Cliente\LoginController@reset')->where(['ckey' => '[a-zA-Z0-9]+']);
       Route::any('/register','Cliente\LoginController@register');
       Route::get('/confirm/{ckey}','Cliente\LoginController@confirmregister')->where(['ckey' => '[a-zA-Z0-9]+']);
+
+      Route::get('/pedidos','Cliente\PedidosController@index');
+      Route::get('/pedidos/{id}','Cliente\PedidosController@show')->where(['id' => '[0-9]+']);
+      Route::get('/pedidos/{ckey}/pdf','Website\PedidosController@ShowPdfByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+      Route::post('/pedidos/{id}/generar','Cliente\PedidosController@generarpedido')->where(['id' => '[0-9]+']);
     });
 
     Route::get('/','Cliente\HomeController@index');
