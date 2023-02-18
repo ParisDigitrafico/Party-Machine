@@ -65,7 +65,10 @@
                 </div>
 
                 <div class="col-lg-6 data-wow-delay="0.1s">
-                    <img class="img-robot" src="/static/website/images/robot_globo.png" alt="">
+                    <!-- <img class="img-robot" src="/static/website/images/robot_globo.png" alt=""> -->
+                    <div class="img-contact-robot">
+
+                    </div>
                 </div>
                 <!-- <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s" style="min-height: 450px;">
                     <div class="position-relative overflow-hidden h-100">

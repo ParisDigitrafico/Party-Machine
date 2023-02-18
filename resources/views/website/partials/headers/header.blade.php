@@ -48,7 +48,7 @@
                 @endforeach
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2 btnCart" href=""><i
                         class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/"
                     title="Sign In"><i class="fas fa-sign-in-alt"></i></a>
