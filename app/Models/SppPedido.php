@@ -10,27 +10,26 @@ class SppPedido extends SuperModel
   protected $table      = 'spp_pedido';
   protected $primaryKey = 'id';
 
-  public function detalle()
+  public function detalles()
   {
-    /*return $this->belongsTo(SppPedidoDetalle::class, 'idpedido');*/
-    return $this->hasMany(SppPedidoDetalle::class, 'idpedido');
+    return $this->hasMany(SppPedidoDetalle::class, 'pedido_id');
   }
 
-  public function ActualizarTotalesPorId($idpedido)
+  public function ActualizarTotalesPorId($pedido_id)
   {
     $response = false;
 
-    $objPedido = new self;
-    $objPedDet = new SppPedidoDetalle;
+    $objPedido = new self();
+    $objPedDet = new SppPedidoDetalle();
 
-    $pedido = $objPedido->find($idpedido);
+    $pedido = $objPedido->whereId($pedido_id)->first();
 
     if($pedido)
     {
       $iTotalCantidad = 0;
       $dTotalFinal    = 0;
 
-      $arrDetalle = $objPedDet->where("idpedido", $idpedido)->get();
+      $arrDetalle = $objPedDet->where("pedido_id", $pedido_id)->get();
 
       if(count($arrDetalle) > 0)
       {
@@ -43,8 +42,8 @@ class SppPedido extends SuperModel
 
       $pedido->cantidad = $iTotalCantidad;
       $pedido->total    = $dTotalFinal;
-      $pedido->iva      = $dTotalFinal * (16 / 100);
-      $pedido->subtotal = $pedido->total - $pedido->iva;
+      #$pedido->iva      = $dTotalFinal * (16 / 100);
+      #$pedido->subtotal = $pedido->total - $pedido->iva;
 
       $pedido->save();
     }

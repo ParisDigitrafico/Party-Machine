@@ -157,9 +157,9 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
     });
 
     Route::prefix('carrito')->group(function(){
-      Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
-      Route::get('/{ckey}/resumen','Website\PedidosController@ShowResumenByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
-    });
+    Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+    Route::get('/{ckey}/resumen','Website\PedidosController@ShowResumenByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+  });
 
     Route::get('/ajax/captcha','Website\AjaxController@captcha');
     Route::post('/ajax/{control}/{action}','Website\AjaxController@call')->where(['control' => '[a-zA-Z0-9]+','action' => '[a-zA-Z0-9]+']);;

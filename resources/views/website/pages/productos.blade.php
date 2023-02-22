@@ -83,7 +83,7 @@
         <div class="col-9">
             <div class="row">
                 @foreach($data as $item)
-                <div class="card card_producto_" style="width: 16rem;padding: 0;margin: 1rem 1rem;border: none;">
+                <div class="card card_producto" style="width: 16rem;padding: 0;margin: 1rem 1rem;border: none;">
                     <div class="card-img">
                         <img class="card-img-top img-fluid" src="{{ $item->photo()->url}}" alt="Foto">
                     </div>
@@ -97,10 +97,13 @@
                         <div class="icon_cart">
                             <!-- <a href="" class="btn btnAddCarrito" style="padding-top: 1rem;"><i
                                     class="fas fa-shopping-cart"></i></a> -->
-                                    
-                            <a href="#" class="btn btnAddCarrito" data-loading=""
+
+                            <!-- <a href="#" class="btn btnAddCarrito" data-loading=""
                                 data-producto-id="{{ $item['id'] }}"><span><i
-                                    class="fas fa-shopping-cart"></i></span></a>
+                                        class="fas fa-shopping-cart"></i></span></a> -->
+
+                            <a href="#" class="btn btn-primary btnAddCarrito" data-loading=""
+                                data-producto-id="{{ $item['id'] }}"><span>Add</span></a>
                         </div>
                     </div>
 
@@ -111,18 +114,5 @@
 
     </div>
 </div>
-
-@endpush
-
-@push("js")
-
-<script type="text/javascript">
-$(document).ready(function() {
-
-    $(".btnAddCarrito").click(function() {
-        alert("ok");
-    })
-});
-</script>
 
 @endpush

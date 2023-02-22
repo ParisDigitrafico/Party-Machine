@@ -13,7 +13,7 @@ var componente_plugins = (function($, pub)
   {
     callback = callback || "";
 
-    xhr = $.get("/pedidos/"+ ckeypedido, {}, null, 'json');
+    xhr = $.get("/api/v1/pedidos/"+ ckeypedido, {}, null, 'json');
 
     xhr.done(function(response){
       if(typeof callback === 'function')
@@ -23,11 +23,11 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _AgregarProductoCantidadAPedidoByCkey(ckeypedido, codigoProducto, cantidad, callback)
+  function _AgregarProductoCantidadAPedidoByCkey(ckeypedido, producto_id, cantidad, callback)
   {
     callback = callback || "";
 
-    xhr = $.post("/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/", {}, null, 'json');
+    xhr = $.post("/api/v1/pedidos/"+ ckeypedido +"/"+ producto_id +"/"+ cantidad +"/", {}, null, 'json');
 
     xhr.done(function(response){
       if(typeof callback === 'function')
@@ -47,7 +47,7 @@ var componente_plugins = (function($, pub)
   {
     var xhr = $.ajax({
       type: "put",
-      url: "/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/",
+      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/",
       dataType: "json",
     });
 
@@ -63,7 +63,7 @@ var componente_plugins = (function($, pub)
   {
     var xhr = $.ajax({
       type: "delete",
-      url: "/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
+      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
       dataType: "json",
     });
 
@@ -75,7 +75,7 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _AgregarProductoACarrito(iCodigo, iCantidad, callback)
+  function _AgregarProductoACarrito(producto_id, cantidad, callback)
   {
     var ckeypedido = util.getStorage("ckeypedido");
 
@@ -83,16 +83,16 @@ var componente_plugins = (function($, pub)
 
     if(ckeypedido)
     {
-      _AgregarProductoCantidadAPedidoByCkey(ckeypedido, iCodigo, iCantidad, callback);
+      _AgregarProductoCantidadAPedidoByCkey(ckeypedido, producto_id, cantidad, callback);
     }
     else
     {
-      xhr = $.post('/pedidos/', {}, null, 'json');
+      xhr = $.post('/api/v1/pedidos/', {}, null, 'json');
 
       xhr.done(function(response){
         util.setStorage("ckeypedido", response.data.ckey, (24*60));
 
-        _AgregarProductoCantidadAPedidoByCkey(response.data.ckey, iCodigo, iCantidad, callback);
+        _AgregarProductoCantidadAPedidoByCkey(response.data.ckey, producto_id, cantidad, callback);
       });
     }
   }
@@ -148,12 +148,12 @@ var componente_plugins = (function($, pub)
 
         $btnAddCarrito.html('<span>Cargando...</span>').data("loading","1");
 
-        iCodigo   = $btnAddCarrito.data("codigo") || "";
+        iProducto   = $btnAddCarrito.data("producto-id") || "";
         iCantidad = $btnAddCarrito.data("cantidad") || 1;
 
-        if(iCodigo.toString().length > 0)
+        if(iProducto.toString().length > 0)
         {
-          _AgregarProductoACarrito(iCodigo, iCantidad, function(response){
+          _AgregarProductoACarrito(iProducto, iCantidad, function(response){
             if(response.success)
             {
               $btnCart    = $(".btnCart").first();
@@ -190,7 +190,7 @@ var componente_plugins = (function($, pub)
 
     if(ckeypedido.length == 0)
     {
-      ajx = $.post('/pedidos/', {}, null, 'json');
+      ajx = $.post('/api/v1/pedidos/', {}, null, 'json');
 
       ajx.done(function(response, textStatus, xhr){
         if(xhr.status == 201)

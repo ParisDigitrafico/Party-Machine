@@ -9,6 +9,7 @@ use App\Helpers\SitioWeb;
 
 use App\Models\SppPedido;
 use App\Models\SppPedidoDetalle;
+use App\Models\SppProducto;
 
 
 class PedidosApiController extends MController
@@ -93,20 +94,16 @@ class PedidosApiController extends MController
   {
     $response = array();
 
-    $iCode = "400";
-
     $objPedido = new SppPedido;
     $objPedDet = new SppPedidoDetalle;
 
-    $objFbazar = new FbazarService();
-
-    $query = $objPedido->where("id", $idpedido);
+    $query = $objPedido->where("id", $pedido_id);
 
     $pedido = $query->first();
 
     if($pedido)
     {
-      $detalle = $objPedDet->where("idpedido", $idpedido)->where("codigoProducto", $codigoProducto)->first();
+      $detalle = $objPedDet->where("pedido_id", $pedido_id)->where("id", $id)->first();
 
       if($detalle)
       {
@@ -146,11 +143,9 @@ class PedidosApiController extends MController
       $pedido = $query->first();
 
       $response["data"] = objectToArray($pedido);
-
-      $iCode = 202;
     }
 
-    return response()->json($response, $iCode);
+    return response()->json($response);
   }
 
   public function showPedidoByCKey($ckey)
@@ -197,80 +192,62 @@ class PedidosApiController extends MController
     return response()->json($response);
   }
 
-  public function addProductoCantidadByCKey($ckey, $producto_id, $cantidad)
+  public function addProductoCantidadByCKey(Request $request, $ckey, $producto_id, $cantidad)
   {
     $response = array();
 
-    $response["code"] = 404;
+    $response["status"] = 404;
 
-    $objPedido = new SppPedido();
-    $objPedDet = new SppPedidoDetalle();
+    $objPedido   = new SppPedido();
+    $objPedDet   = new SppPedidoDetalle();
+    $objProducto = new SppProducto();
 
-
-    $query = $objPedido->where("ckey", $ckey)->where("es_venta", 1)->orderBy("id","desc");
+    $query = $objPedido->where("ckey", $ckey)->where("es_pagado", 0)->orderBy("id","desc");
 
     $pedido = $query->first();
 
     if($pedido)
     {
-      $pedido_id = $pedido->id;
-
       $pedido_det = $pedido->detalles()->where("producto_id", $producto_id)->first();
 
       if($pedido_det)
       {
-        $response["code"] = 200;
-
         $data = array();
 
         $pedido_det->cantidad = intval($pedido_det->cantidad) + intval($cantidad);
 
         $pedido_det->save();
+
+        $response["status"]  = 200;
+        $response["success"] = true;
       }
       else
       {
-        /*$apiResponse = $objFbazar->get_producto_bazar_bycode($codigoProducto);*/
-        $apiResponse = $objFbazar->get_producto_ecommerce_byid($idProducto);
+        $producto = $objProducto->whereId($producto_id)->first();
 
-        $producto = $apiResponse["data"];
-
-        if(!empty($producto))
+        if($producto)
         {
           $data = array();
 
-          $data["idpedido"]          = $idpedido;
-          $data["idProducto"]        = $idProducto;
-          $data["codigoProducto"]    = $producto["codigoProducto"];
-          $data["codigoRelacionado"] = $producto["codigoRelacionado"];
-          $data["nombre"]            = $producto["descripcion"];
-          $data["precio"]            = $producto["precioVenta"];
-          $data["cantidad"]          = intval($cantidad);
-
-          $data["precioUnitario"]     = $producto["precioUnitario"];
-          $data["costoUnitario"]      = $producto["costoUnitario"];
-          $data["codigoDepartamento"] = $producto["codigoDepartamento"];
-          $data["tasaIva"]            = $producto["tasaIva"];
-          $data["porcDescuento"]      = $producto["porcDescuento"];
-          $data["precioVenta"]        = $producto["precioVenta"];
-
-          $data["delivery"] = $producto["delivery"] == true ? 1:0;
-          $data["pickUp"]   = $producto["pickUp"] == true ? 1:0;
+          $data["pedido_id"]   = $pedido->id;
+          $data["producto_id"] = $producto->id;
+          $data["cantidad"]    = intval($cantidad);
 
           $pedido_det_id = $objPedDet->insertGetId($data);
 
           if($pedido_det_id)
           {
-            $response["code"] = 201;
+            $response["status"]  = 201;
+            $response["success"] = true;
           }
         }
       }
 
-      $objPedido->ActualizarTotalesPorId($idpedido);
+      $objPedido->ActualizarTotalesPorId($pedido->id);
 
       $pedido = $query->first();
 
-      $response["success"] = true;
-      $response["data"]    = objectToArray($pedido);
+      $response["data"] = objectToArray($pedido);
     }
 
     return response()->json($response);
