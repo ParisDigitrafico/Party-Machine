@@ -68,9 +68,11 @@ class PedidosController extends MController
   {
     $response = array();
 
-    $pedido = SppPedido::where("ckey",$ckey)->get();
+    $data = SppPedido::where("ckey",$ckey)->first();
 
-      return view("website.carrito.carrito_form", $response)->render();
+    $response["data"] = $data;
+
+    return view("website.carrito.carrito_form", $response)->render();
   }
 
   public function ShowResumenByCKey($ckey)

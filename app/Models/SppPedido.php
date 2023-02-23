@@ -33,10 +33,10 @@ class SppPedido extends SuperModel
 
       if(count($arrDetalle) > 0)
       {
-        foreach($arrDetalle as $Detalle)
+        foreach($arrDetalle as $Detalles)
         {
-          $iTotalCantidad+= $Detalle->cantidad;
-          $dTotalFinal+= $Detalle->total;
+          $iTotalCantidad+= $Detalles->cantidad;
+          $dTotalFinal+= $Detalles->total;
         }
       }
 

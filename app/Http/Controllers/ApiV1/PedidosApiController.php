@@ -287,20 +287,20 @@ class PedidosApiController extends MController
     return response()->json($response);
   }
 
-  public function removeProductByCKey($ckey, $idProducto)
+  public function removeProductByCKey(Request $request, $ckey, $producto_id)
   {
     $response = array();
 
     $response['status'] = 404;
 
-    $objPedido = new FbzPedido;
-    $objPedDet = new FbzPedidoDetalle;
+    $objPedido = new SppPedido;
+    $objPedDet = new SppPedidoDetalle;
 
-    $pedido = $objPedido->where("ckey",$ckey)->where("es_carrito",1)->orderBy("id","desc")->first();
+    $pedido = $objPedido->where("ckey",$ckey)->where("es_pagado",0)->orderBy("id","desc")->first();
 
     if($pedido)
     {
-      $pedido_det = $pedido->detalles()->where("idProducto",$idProducto)->first();
+      $pedido_det = $pedido->detalles()->where("producto_id",$producto_id)->first();
 
       if($pedido_det)
       {

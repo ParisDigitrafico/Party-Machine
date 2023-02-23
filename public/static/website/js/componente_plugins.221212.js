@@ -59,11 +59,11 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _QuitarProductoAPedidoByCKey(ckeypedido, codigoProducto, callback)
+  function _QuitarProductoAPedidoByCKey(ckeypedido, producto_id, callback)
   {
     var xhr = $.ajax({
       type: "delete",
-      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
+      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ producto_id +"/",
       dataType: "json",
     });
 
@@ -254,13 +254,13 @@ var componente_plugins = (function($, pub)
         $btnRemove = $(this);
 
         ckey = $btnRemove.data("ckey");
-        codigoProducto = $btnRemove.data("codigo-producto");
+        producto_id = $btnRemove.data("producto-id");
 
         aux = confirm("¿Realmente deseas quitar este producto del carrito?");
 
         if(aux)
         {
-          _QuitarProductoAPedidoByCKey(ckey,codigoProducto,function(response){
+          _QuitarProductoAPedidoByCKey(ckey,producto_id,function(response){
             if(response.success)
             {
               location.href="/carrito/"+ckey;
