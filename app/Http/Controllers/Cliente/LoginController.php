@@ -51,7 +51,7 @@ class LoginController extends Controller
     return view('cliente.pages.login.login_form', $response)->render();
   }
 
-  public function process($idcliente)
+  public function process($cliente_id)
   {
     $response = false;
 

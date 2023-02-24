@@ -281,7 +281,7 @@ var componente_plugins = (function($, pub)
 
       $btn = $(this);
 
-      iAux = $btn.data("idcliente") || "";
+      iAux = $btn.data("cliente_id") || "";
 
       if(iAux.toString().length > 0)
       {
@@ -289,7 +289,7 @@ var componente_plugins = (function($, pub)
       }
       else
       {
-        location.href='/login/';
+        location.href = "/cliente/";
       }
     });
   };

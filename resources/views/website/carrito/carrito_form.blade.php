@@ -1,7 +1,6 @@
 @extends('website.layouts.default')
 
 <style>
-
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
     line-height: 2.15;
@@ -45,26 +44,27 @@
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <h1 class="fw-bold mb-0 text-black">Carrito</h1>
                                         <!-- <h6 class="mb-0 text-muted total">3 items</h6> -->
-                                        
+
                                     </div>
                                     <hr class="my-4">
 
                                     <div class="items-card">
 
-                                    @if(!empty($detalles = $data->detalles))
-                                    @foreach($detalles as $item)
+                                        @if(!empty($detalles = $data->detalles))
+                                        @foreach($detalles as $item)
 
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center div-item">
-                                        <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <img src="{{ $item->producto->photo()->url }}"
-                                                class="img-fluid rounded-3" alt="Foto">
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <h6 class="text-muted">{{ $item->producto->tipo }}</h6>
-                                            <h6 class="text-black mb-0">{{$item->producto_nombre}}</h6>
-                                        </div>
+                                        <div
+                                            class="row mb-4 d-flex justify-content-between align-items-center div-item">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img src="{{ $item->producto->photo()->url }}"
+                                                    class="img-fluid rounded-3" alt="Foto">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <h6 class="text-muted">{{ $item->producto->tipo }}</h6>
+                                                <h6 class="text-black mb-0">{{$item->producto_nombre}}</h6>
+                                            </div>
 
-                                        <!-- <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                            <!-- <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                             <button class="btn btn-link px-2"
                                                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                 <i class="fas fa-minus"></i>
@@ -78,19 +78,20 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div> -->
-                                        
-                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h6 class="mb-0">${{ number_format($item->precio, 2) }} MXN</h6>
-                                        </div>
-                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            <a href="#!" class="text-muted btnRemove" data-ckey="{{ $data['ckey'] }}"
-                                                data-producto-id="{{ $item['producto_id'] }}"><i
-                                                    class="fas fa-times"></i></a>
-                                        </div>
-                                    </div>
 
-                                    @endforeach
-                                    @endif
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 class="mb-0">${{ number_format($item->precio, 2) }} MXN</h6>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a href="#!" class="text-muted btnRemove"
+                                                    data-ckey="{{ $data['ckey'] }}"
+                                                    data-producto-id="{{ $item['producto_id'] }}"><i
+                                                        class="fas fa-times"></i></a>
+                                            </div>
+                                        </div>
+
+                                        @endforeach
+                                        @endif
                                     </div>
 
                                     <hr class="my-4">
@@ -139,8 +140,15 @@
                                         <h5>${{ $data->total }} MXN</h5>
                                     </div>
 
-                                    <button type="button" class="btn btn-dark btn-block btn-lg"
-                                        data-mdb-ripple-color="dark">Register</button>
+                                    <!-- <button type="button" class="btn btn-dark btn-block btn-lg"
+                                        data-mdb-ripple-color="dark">Register</button> -->
+
+                                    <h6><a href="#" class="text-body btnSiguiente"
+                                            data-cliente_id="{{ intval(session('cliente_id')) }}"
+                                            data-url="/carrito/{{ $data['ckey'] }}/resumen/">
+                                            <span>Siguiente Paso</span><i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                        </a>
+                                    </h6>
 
                                 </div>
                             </div>

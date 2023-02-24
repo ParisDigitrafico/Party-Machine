@@ -152,9 +152,9 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
     Route::get('/clearcache','Website\HomeController@clearcache');
     /*Route::get('/testmodelos','TestController@testmodelos');*/
 
-    Route::prefix('login')->group(function(){
-      Route::get('/','Website\LoginController@login');
-    });
+    // Route::prefix('login')->group(function(){
+    //   Route::get('/','Website\LoginController@login');
+    // });
 
     Route::prefix('carrito')->group(function(){
     Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
