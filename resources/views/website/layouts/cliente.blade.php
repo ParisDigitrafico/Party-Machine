@@ -37,12 +37,12 @@
     @include("website.generico.scripts")
 
     <script type="text/javascript">
-    window.laravel = {
-        !!json_encode([
-            'token' => csrf_token(),
-        ]) !!
-    };
-    </script>
+window.laravel = {!! json_encode([
+                  'token' => csrf_token(),
+                 ]) !!};
+
+componente_plugins.init();
+</script>
 
     @stack("js")
 </body>
