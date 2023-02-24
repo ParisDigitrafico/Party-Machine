@@ -51,7 +51,7 @@
                 <a class="btn btn-square rounded-circle bg-light text-primary me-2 btnCart"
                     data-pedido="{{ session('ckeypedido') }}" href=""><i class="fa fa-shopping-cart"
                         aria-hidden="true"></i>
-                    <span class="text total" style="font-size: 16pt"></span>
+                    <span class="text total" style="font-size: 10pt;padding-bottom: ;padding: 0 0 1rem 3px;"></span>
                 </a>
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/"
                     title="Sign In"><i class="fas fa-sign-in-alt"></i></a>

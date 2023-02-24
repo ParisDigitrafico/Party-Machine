@@ -154,7 +154,7 @@ class PedidosApiController extends MController
 
     $objBase = new SppPedido;
 
-    $query = $objBase->where("ckey", $ckey)->where("es_venta",1);
+    $query = $objBase->where("ckey", $ckey)->where("es_pagado",0);
 
     $item = $query->first();
 
@@ -212,14 +212,17 @@ class PedidosApiController extends MController
 
       if($pedido_det)
       {
-        $data = array();
+        /*$data = array();
 
         $pedido_det->cantidad = intval($pedido_det->cantidad) + intval($cantidad);
 
         $pedido_det->save();
 
         $response["status"]  = 200;
-        $response["success"] = true;
+        $response["success"] = true;*/
+
+        $response["status"]  = 200;
+        $response["message"] = 'Ya tiene un producto de este tipo.';
       }
       else
       {
@@ -227,18 +230,38 @@ class PedidosApiController extends MController
 
         if($producto)
         {
-          $data = array();
+          $arrIdProducto = [];
 
-          $data["pedido_id"]   = $pedido->id;
-          $data["producto_id"] = $producto->id;
-          $data["cantidad"]    = intval($cantidad);
+          $productos_tipo = $objProducto->where('tipo', $producto->tipo)->get();
 
-          $pedido_det_id = $objPedDet->insertGetId($data);
-
-          if($pedido_det_id)
+          foreach($productos_tipo as $item)
           {
-            $response["status"]  = 201;
-            $response["success"] = true;
+            $arrIdProducto[] = $item->id;
+          }
+
+          $pedidos_det = $pedido->detalles()->whereIn('producto_id',$arrIdProducto)->get();
+
+          if($pedidos_det->count() > 0)
+          {
+            $response["message"] = 'Ya tiene un producto de este tipo.';
+          }
+          else
+          {
+            $data = array();
+
+            $data["pedido_id"]       = $pedido->id;
+            $data["producto_id"]     = $producto->id;
+            $data["producto_nombre"] = $producto->nombre;
+            $data["precio"]          = $producto->precio;
+            $data["cantidad"]        = intval($cantidad);
+
+            $pedido_det_id = $objPedDet->insertGetId($data);
+
+            if($pedido_det_id)
+            {
+              $response["status"]  = 201;
+              $response["success"] = true;
+            }
           }
         }
       }
@@ -253,22 +276,20 @@ class PedidosApiController extends MController
     return response()->json($response);
   }
 
-  public function updateProductoCantidadByCKey($ckey, $idProducto, $cantidad)
+  public function updateProductoCantidadByCKey($ckey, $producto_id, $cantidad)
   {
     $response = array();
 
     $response["code"] = 404;
 
     $objPedido = new SppPedido;
-    $objPedDet = new FbzPedidoDetalle;
+    $objPedDet = new SppPedidoDetalle;
 
-    $objFbazar = new FbazarService();
-
-    $pedido = $objPedido->where("ckey", $ckey)->where("es_carrito",1)->orderBy("id","desc")->first();
+    $pedido = $objPedido->where("ckey", $ckey)->where("es_pagado",0)->orderBy("id","desc")->first();
 
     if($pedido)
     {
-      $pedido_det = $pedido->detalles->where("idProducto", $idProducto)->first();
+      $pedido_det = $pedido->detalles->where("producto_id", $producto_id)->first();
 
       if($pedido_det)
       {
@@ -322,9 +343,9 @@ class PedidosApiController extends MController
     $response = array();
 
     $objApiPed = new self();
-    $objPedido = new FbzPedido();
+    $objPedido = new SppPedido();
 
-    $pedido = $objPedido->where("ckey",$ckey)->where("es_carrito",1)->orderBy("id","desc")->first();
+    $pedido = $objPedido->where("ckey",$ckey)->where("es_pagado",1)->orderBy("id","desc")->first();
 
     if($pedido)
     {

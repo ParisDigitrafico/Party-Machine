@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function(){
 
   //PUT
   Route::put('/pedidos/{ckey}/{producto_id}/{cantidad}','ApiV1\PedidosApiController@updateProductoCantidadByCKey')
-      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'codigoProducto' => '[0-9]+', 'cantidad' => '[0-9]+']);
+      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'producto_id' => '[0-9]+', 'cantidad' => '[0-9]+']);
 
   //DELETE
   Route::delete('/pedidos/{ckey}/{producto_id}','ApiV1\PedidosApiController@removeProductByCKey')

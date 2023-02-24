@@ -29,23 +29,44 @@ class SppPedido extends SuperModel
       $iTotalCantidad = 0;
       $dTotalFinal    = 0;
 
-      $arrDetalle = $objPedDet->where("pedido_id", $pedido_id)->get();
+      $detalles = $objPedDet->where("pedido_id", $pedido_id)->get();
 
-      if(count($arrDetalle) > 0)
+      if($detalles->count() > 0)
       {
-        foreach($arrDetalle as $Detalles)
+        foreach($detalles as $pedido_det)
         {
-          $iTotalCantidad+= $Detalles->cantidad;
-          $dTotalFinal+= $Detalles->total;
+          $pedido_det->updated_at = now();
+
+          $pedido_det->total    = $pedido_det->precio * $pedido_det->cantidad;
+          /*$pedido_det->subtotal = $pedido_det->total;  */
+
+          $pedido_det->save();
         }
       }
 
-      $pedido->cantidad = $iTotalCantidad;
-      $pedido->total    = $dTotalFinal;
-      #$pedido->iva      = $dTotalFinal * (16 / 100);
-      #$pedido->subtotal = $pedido->total - $pedido->iva;
+      $detalles = $objPedDet->where("pedido_id", $pedido_id)->get();
+
+      if($detalles->count() > 0)
+      {
+        foreach($detalles as $pedido_det)
+        {
+          $iTotalCantidad+= $pedido_det->cantidad;
+          /*$dTotalSubtotal+= $pedido_det->subtotal;
+          $dTotalIva+= $pedido_det->totalIva;
+          $dTotalDesc+= $pedido_det->totalDescuento;*/
+          $dTotalFinal+= $pedido_det->total;
+        }
+      }
+
+      $pedido->cantidad       = $iTotalCantidad;
+      /*$pedido->subtotal       = $dTotalSubtotal;
+      $pedido->totalIva       = $dTotalIva;
+      $pedido->totalDescuento = $dTotalDesc;*/
+      $pedido->total          = $dTotalFinal;
 
       $pedido->save();
+
+      $response = true;
     }
 
     return $response;

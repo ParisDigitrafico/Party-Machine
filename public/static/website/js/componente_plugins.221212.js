@@ -146,7 +146,7 @@ var componente_plugins = (function($, pub)
       {
         cOriginal = $btnAddCarrito.html();
 
-        $btnAddCarrito.html('<span>Cargando...</span>').data("loading","1");
+        $btnAddCarrito.html('<span>...</span>').data("loading","1");
 
         iProducto   = $btnAddCarrito.data("producto-id") || "";
         iCantidad = $btnAddCarrito.data("cantidad") || 1;
@@ -219,11 +219,16 @@ var componente_plugins = (function($, pub)
 
     $area_carrito = $("." + cClass).first();
 
-    $table = $area_carrito.find("table");
-    $tbody = $table.find("tbody");
+    // $table = $area_carrito.find("table");
+    // $tbody = $table.find("tbody");
 
-    $tbody.find("tr").each(function(index, element){
-      $tr = $(this);
+    // $tbody.find("tr").each(function(index, element){
+    //   $tr = $(this);
+
+      $items_card = $area_carrito.find(".items-card");
+      
+      $items_card.find(".div-item").each(function(index, element){
+        $tr = $(this);
 
       $txtCantidad = $tr.find(".txtCantidad").first();
 

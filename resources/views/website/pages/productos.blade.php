@@ -102,8 +102,9 @@
                                 data-producto-id="{{ $item['id'] }}"><span><i
                                         class="fas fa-shopping-cart"></i></span></a> -->
 
-                            <a href="#" class="btn btn-primary btnAddCarrito" data-loading=""
-                                data-producto-id="{{ $item['id'] }}"><span>Add</span></a>
+                            <a href="#" class="btn btnAddCarrito" style="padding-top: 1rem;" data-loading=""
+                                data-producto-id="{{ $item['id'] }}"><span><i
+                                        class="fas fa-shopping-cart"></i></span></a>
                         </div>
                     </div>
 
