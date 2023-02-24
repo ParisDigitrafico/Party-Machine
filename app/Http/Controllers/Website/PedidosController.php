@@ -79,63 +79,37 @@ class PedidosController extends MController
   {
     $response = array();
 
-    $pedido = FbzPedido::where("ckey", $ckey)->first();
+    $pedido = SppPedido::where("ckey", $ckey)->first();
 
     if($pedido)
     {
-      $idpedido = $pedido->id;
+      $pedido_id = $pedido->id;
 
-      $objSysServ = new SystemService();
+
 
       if(!empty(session("cliente_id")))
       {
-        $objFbazar = new FbazarService();
 
-        $apiResponse = $objSysServ->get_pedido($idpedido);
 
-        $data = $apiResponse["data"];
+        $response = $pedido->id;
 
-        if(count($data) > 0)
+        $data = $response["data"];
+
+        if(isset($data) )
         {
           $response["data"] = $data;
           $response["ckey"] = $ckey;
 
           $aux = array();
 
-          $apiResponse = $objFbazar->get_cliente_ecommerce_by_email(session("cliente_email"));
+          $response = $objFbazar->get_cliente_ecommerce_by_email(session("cliente_email"));
 
           if($apiResponse["code"] == 200)
           {
             $aux = $apiResponse["data"];
           }
 
-          if(isset($aux["direccion"]) && count($aux["direccion"]) == 0)
-          {
-            $aux1 = array();
-
-            $aux1["code"]    = 500;
-            $aux1["message"] = "Para realizar pedidos de producto es necesario agregar al menos una dirección de domicilio en su cuenta.";
-
-            header("location:/cliente/direcciones/?" . http_build_query($aux1));
-            exit;
-          }
-
           $response["cliente"] = $aux;
-
-          $aux = Cache::remember('api_sucursales', (6*60), function () use ($objFbazar) {
-            $arr = [];
-
-            $apiResponse = $objFbazar->obtener_sucursales();
-
-            if($apiResponse["code"] == 200)
-            {
-              $arr = $apiResponse["data"];
-            }
-
-            return $arr;
-          });
-
-          $response["sucursales"] = $aux;
 
           # combo de cambios
           {

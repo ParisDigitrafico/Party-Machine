@@ -22,7 +22,6 @@ use App\Models\GenCategoria;
 use App\Models\TmpDisponibilidad;
 use App\Models\TmpAsignacion;
 
-use App\Services\FbazarService;
 
 class PedidosController extends MController
 {
@@ -38,7 +37,7 @@ class PedidosController extends MController
     $objPedido  = new SppPedido;
 
     $query = $objPedido->where('id', '!=', '0');
-    $query = $query->where("es_venta", 0);
+    $query = $query->where("es_pagado", 0);
     $query = $query->where("idsadcliente", session("cliente_id"));
     $query = $query->orderBy("id","DESC");
 
