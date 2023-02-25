@@ -35,17 +35,9 @@ class LoginController extends Controller
   {
     $response = array();
 
-    if(intval(session("cliente_id")) == 0
-          && intval(request()->cookie('uid')) > 0
-          && request()->cookie('app') == $this->app
-          && 1==1)
-    {
-      $this->process(intval(request()->cookie('uid')));
-    }
-
     if(!empty(session("cliente_id")))
     {
-      redirect()->to("/cliente/");
+      return redirect()->to("/cliente/");
     }
 
     return view('cliente.pages.login.login_form', $response)->render();
@@ -112,7 +104,9 @@ class LoginController extends Controller
     {
       session()->put('app', $this->app);
       session()->put('cliente_id', $usuario->id);
+      session()->put('usuario_id', $usuario->id);
       session()->put('cliente_user', $usuario->user);
+      session()->put('usuario_user', $usuario->user);
 
       session()->save();
 
@@ -466,7 +460,9 @@ class LoginController extends Controller
       }
       else
       {
-        $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
+        // $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
+
+        $AuxResponse = $objUsuario->where($data["email"]);
 
         if($AuxResponse["code"] == 200)
         {

@@ -53,8 +53,26 @@
                         aria-hidden="true"></i>
                     <span class="text total" style="font-size: 10pt;padding-bottom: ;padding: 0 0 1rem 3px;"></span>
                 </a>
+
+                @if(session("app") == "cliente" && intval(session("cliente_id")) > 0)
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ ucwords(session("cliente_nombre")) }}
+                    </button>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 217px;">
+                        <a class="dropdown-item" href="/cliente/">Mi Perfil</a>
+                        <a class="dropdown-item" href="/cliente/pedidos/">Mis Pedidos</a>
+                        <a class="dropdown-item" href="/cliente/direcciones/">Mis Direcciones</a>
+                        <a class="dropdown-item" href="/cliente/login/close/">Cerrar Sesión</a>
+                    </div>
+                </div>
+                @else
                 <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/"
                     title="Sign In"><i class="fas fa-sign-in-alt"></i></a>
+                @endif
+
             </div>
         </div>
     </nav>
