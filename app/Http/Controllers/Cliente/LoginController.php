@@ -9,18 +9,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 use App\Helpers\CryptoJSAES;
 use App\Helpers\MensajeNotificacion;
-use App\Helpers\ClienteAuth;
 
 use App\Models\AccUsuario;
 use App\Models\AccModulo;
 use App\Models\AccPermiso;
 use App\Models\AccControlSesion;
 use App\Models\AccConfirmarCuenta;
-
-use App\Services\FbazarService;
 
 use Laravel\Socialite\Facades\Socialite;
 
@@ -127,7 +125,7 @@ class LoginController extends Controller
 
       $cEmail = trim(strtolower($request->get("email")));
 
-      $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($cEmail);
+      $AuxResponse = $objUsuario->filterActivos()->where("es_cliente",1)->where("user",$cEmail)->first();
 
       if($AuxResponse["code"] == 200)
       {
@@ -298,24 +296,25 @@ class LoginController extends Controller
     {
       $response = array();
 
-      /*$rules = [
-        'email' => 'required',
-        'name' => 'required',
-      ];
+      // $rules = [
+      //   'email' => 'required',
+      //   'name' => 'required',
+      // ];
 
-      $message = [
-        'email' => 'El campo Correo es obligatorio.',
-        'name' => 'El campo Nombre es obligatorio.',
-      ];
+      // $message = [
+      //   'email' => 'El campo Correo es obligatorio.',
+      //   'name' => 'El campo Nombre es obligatorio.',
+      // ];
 
-      Validator::make($request->all(), $rules)->setAttributeNames($message)->validate();*/
+      // Validator::make($request->all(), $rules)->setAttributeNames($message)->validate();
 
       $objConfirm = new AccConfirmarCuenta;
-      $objUsuario  = new AccUsuario();
+      $objUsuario = new AccUsuario();
 
       $cEmail = trim(strtolower(request()->get("email")));
 
-      $AuxResponse = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();   
+      $AuxResponse = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();
+    
 
       if($AuxResponse["code"] == 200)
       {
@@ -378,7 +377,7 @@ class LoginController extends Controller
               $Dato["name"]       = request()->get("name");
               $Dato["lastname"]   = request()->get("lastname");
               $Dato["phone"]      = request()->get("phone");
-              $Dato["pswd"]       = request()->get("pswd");
+              $Dato["pswd"]       = sha1(request()->get("pswd"));
               $Dato["created_at"] = now();
 
               $objConfirm->insert($Dato);
@@ -441,12 +440,12 @@ class LoginController extends Controller
 
   }
 
-  public function confirmregister($ckey)
+  public function confirmregister(Request $request, $ckey)
   {
     $response = array();
 
-    $objConfirm = new AccConfirmarCuenta;
-    $objUsuario  = new AccUsuario();
+    $objConfirm = new AccConfirmarCuenta();
+    $objUsuario = new AccUsuario();
 
     $confirmacion = $objConfirm->where("ckey", $ckey)->where("tipo", "CLIENTE")
                         ->whereRaw(" created_at >= DATE_SUB(STR_TO_DATE('".now()."','%Y-%m-%d %H:%i:%s'), INTERVAL 24 HOUR) ")->first();
@@ -455,48 +454,46 @@ class LoginController extends Controller
     {
       if($confirmacion->status)
       {
-        $response["code"]    = 200;
+        $response["status"]  = 500;
         $response["message"] = "Este código ya ha sido utilizado previamente, favor de verificar.";
       }
       else
       {
-        // $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
+        $usuario = $objUsuario->where("user", $confirmacion->email)->first();
 
-        $AuxResponse = $objUsuario->where($data["email"]);
-
-        if($AuxResponse["code"] == 200)
+        if($usuario)
         {
-          $response["code"]    = 200;
-          $response["message"] = "Este correo electrónico ya ha sido registrado previamente, favor de verificar.";
+          $response["status"]  = 200;
+          $response["message"] = "Este correo electrónico ya ha sido registrado previamente, favor de utilizar nuestro
+          recuperador de contraseñas.";
         }
         else
         {
           $Dato = array();
 
-          $Dato["email"] = $confirmacion->email;
+          $Dato["user"]       = $confirmacion->email;
+          $Dato["nombre"]     = $confirmacion->name;
+          $Dato["apellidos"]  = $confirmacion->lastname;
+          $Dato["telefono"]   = $confirmacion->phone;
+          $Dato["es_cliente"] = 1;
 
-          $cAux = $confirmacion->name . " " . $confirmacion->lastname;
-          $cAux = trim($cAux);
-
-          $Dato["name"]     = ucwords($cAux);
-          $Dato["phone"]    = $confirmacion->phone;
-          $Dato["password"] = $confirmacion->pswd;
-
-          $AuxResponse = $objUsuario->post_cliente_ecommerce($Dato);
-
-          if($AuxResponse["code"] == 200)
+          if($objUsuario->AgregarUsuario($Dato))
           {
-            $confirmacion->pswd   = "";
+            $usuario = $objUsuario->latest()->first();
+
+            $usuario->pass = $confirmacion->pswd;
+            $usuario->save();
+
             $confirmacion->status = 1;
 
             $confirmacion->save();
 
-            header("location:/cliente/login/?a=t");
-            exit;
+            $response["status"]  = 200;
+            $response["message"] = "Su cuenta fue activada correctamente.";
           }
           else
           {
-            $response["code"]    = 200;
+            $response["status"]  = 500;
             $response["message"] = "No fue posible activar su cuenta, favor de contactar con soporte.";
           }
         }
@@ -504,12 +501,11 @@ class LoginController extends Controller
     }
     else
     {
-      $response["code"]    = 200;
+      $response["status"]  = 500;
       $response["message"] = "Este código no es valido o ha caducado.";
     }
 
-    header("location:/cliente/message/?" . http_build_query($response));
-    exit;
+    return redirect()->to('/cliente/message/?' . http_build_query($response));
   }
 
   public function print_message(Request $request)

@@ -1,6 +1,5 @@
 <?php
 Route::prefix('sistema')->group(function(){
-  Route::get('/','Sistema\LoginController@index');
 
   Route::prefix('login')->group(function(){
     Route::get('/','Sistema\LoginController@Login');
@@ -9,8 +8,6 @@ Route::prefix('sistema')->group(function(){
     Route::any('/forgot','Sistema\LoginController@forgot');
     Route::get('/reset/{ckey}','Sistema\LoginController@reset')->where(['ckey' => '[a-zA-Z0-9]+']);
   });
-
-  Route::get('/home', 'Sistema\HomeController@index');
 
   Route::prefix('usuarios')->group(function(){
     Route::get('/','Sistema\UsuariosController@index');
@@ -52,7 +49,6 @@ Route::prefix('sistema')->group(function(){
     Route::post('/save','Sistema\PaginasController@customsave');
     Route::post('/{id}/action/{action}','Sistema\PaginasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
-
 
   Route::prefix('banners')->group(function(){
     Route::get('/','Sistema\BannersController@index');
@@ -100,8 +96,12 @@ Route::prefix('sistema')->group(function(){
     Route::post('/save','Sistema\ConfiguracionesController@save');
   });
 
-  Route::get('/table/{table}/last_updated','ApiController@get_last_updated')->where(['table' => '.*']);
-  Route::get('/jsontable/{table}','Sistema\HomeController@getJsonTable')->where(['table' => '.*']);
+  Route::prefix('/')->group(function(){
+    Route::get('/','Sistema\LoginController@index');
+    Route::get('/home', 'Sistema\HomeController@index');
+    Route::get('/table/{table}/last_updated','ApiController@get_last_updated')->where(['table' => '.*']);
+    Route::get('/jsontable/{table}','Sistema\HomeController@getJsonTable')->where(['table' => '.*']);
+  });
 });
 
 Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
@@ -116,11 +116,6 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::get('/reset/{ckey}','Cliente\LoginController@reset')->where(['ckey' => '[a-zA-Z0-9]+']);
       Route::any('/register','Cliente\LoginController@register');
       Route::get('/confirm/{ckey}','Cliente\LoginController@confirmregister')->where(['ckey' => '[a-zA-Z0-9]+']);
-
-      Route::get('/pedidos','Cliente\PedidosController@index');
-      Route::get('/pedidos/{id}','Cliente\PedidosController@show')->where(['id' => '[0-9]+']);
-      Route::get('/pedidos/{ckey}/pdf','Website\PedidosController@ShowPdfByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
-      Route::post('/pedidos/{id}/generar','Cliente\PedidosController@generarpedido')->where(['id' => '[0-9]+']);
     });
 
     Route::get('/','Cliente\HomeController@index');

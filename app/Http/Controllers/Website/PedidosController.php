@@ -79,7 +79,7 @@ class PedidosController extends MController
   {
     $response = array();
 
-    $pedido = SppPedido::where("ckey", $ckey)->first();
+    $data = SppPedido::where("ckey", $ckey)->first();
 
     $response["data"] = $data;
 
