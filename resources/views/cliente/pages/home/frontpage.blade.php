@@ -6,18 +6,15 @@
         <div class="row d-flex">
 
 
-            <div class="col-6 py-4">
+            <div class="col-12 py-4">
                 <h3>Mi Perfil</h3>
-            </div>
-            <div class="col-6 py-4">
-                <h3>Folio:</h3>
             </div>
 
             <div class="col-12 col-sm-6 col-lg-4 mb-2">
             <a href="" style="color: black;text-decoration: none;">
                 <div class="card flex-row" style="width:100%; border-radius: 10px;">
                 <div class="card-body">
-                <h5 class="card-title"><i class="icon-shopping-bag"></i>Mis tramites</h5>
+                <h5 class="card-title"><i class="icon-shopping-bag"></i>Mis Pedidos</h5>
                 <p class="card-text">Brinda seguimiento a tus tramites, revisa las observaciones de tu asesor y mantente informado.</p>
                 <a href="" class="btn border">
                     <span>Ir</span>

@@ -64,7 +64,7 @@ class LoginController extends Controller
       {
         $cPassword = customDecrypt(file_get_contents($cFilename, true));
 
-        $AuxResponse = $objUsuario->where('pass')($data["email"], $cPassword);
+        $AuxResponse = $objUsuario->where('pass')($data["user"], $cPassword);
 
         if($AuxResponse["code"] == 200)
         {
@@ -72,8 +72,8 @@ class LoginController extends Controller
 
           session()->put('app', $this->app);
           session()->put('cliente_id', $data["id"]);
-          session()->put('cliente_email', $data["email"]);
-          session()->put('cliente_nombre', $data["name"]);
+          session()->put('cliente_email', $data["user"]);
+          session()->put('cliente_nombre', $data["nombre"]);
           session()->put('cliente_pswd', sha1($cPassword));
 
           session()->save();
@@ -105,8 +105,17 @@ class LoginController extends Controller
       session()->put('usuario_id', $usuario->id);
       session()->put('cliente_user', $usuario->user);
       session()->put('usuario_user', $usuario->user);
+      session()->put('cliente_nombre', $usuario->nombre." ".$usuario->apellidos);
 
       session()->save();
+
+      if(request()->has("rememberme"))
+      {
+        $iMinutes = 60 * 24 * 30;
+
+        Cookie::queue(Cookie::make('app', $this->app, $iMinutes, null, null, true));
+        Cookie::queue(Cookie::make('uid', $usuario->id, $iMinutes, null, null, true));
+      }
 
       return redirect()->to("/cliente/");
     }

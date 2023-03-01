@@ -49,7 +49,7 @@
                                     <!-- Checkbox -->
                                     <div class="form-check mb-0">
                                         <input class="form-check-input me-2" type="checkbox" value=""
-                                            id="form2Example3" />
+                                            id="form2Example3" name="rememberme" />
                                         <label class="form-check-label" for="form2Example3">
                                             Remember me
                                         </label>
