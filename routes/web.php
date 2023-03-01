@@ -118,6 +118,8 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::get('/confirm/{ckey}','Cliente\LoginController@confirmregister')->where(['ckey' => '[a-zA-Z0-9]+']);
     });
 
+    Route::get('/message','Cliente\LoginController@print_message'); 
+
     Route::get('/','Cliente\HomeController@index');
 
     Route::prefix('visas')->group(function(){

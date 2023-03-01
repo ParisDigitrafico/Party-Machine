@@ -9,28 +9,39 @@ class MensajeNotificacion
 
     try
     {
-      if(!empty(get_const("MAIL_HOST"))
-          && !empty(get_const("MAIL_PORT"))
-          && !empty(get_const("MAIL_USERNAME"))
-          && !empty(get_const("MAIL_PASSWORD"))
+      $cMailHost = get_config_db("MAIL_HOST") ?: get_const("MAIL_HOST");
+      $cMailPort = get_config_db("MAIL_PORT") ?: get_const("MAIL_PORT");
+      $cMailEncr = get_config_db("MAIL_ENCRYPTION") ?: get_const("MAIL_ENCRYPTION");
+      $cMailUser = get_config_db("MAIL_USERNAME") ?: get_const("MAIL_USERNAME");
+      $cMailPass = get_config_db("MAIL_PASSWORD") ?: get_const("MAIL_PASSWORD");
+
+      $cMailFromAddress    = get_config_db("MAIL_FROM_ADDRESS") ?: get_const("MAIL_FROM_ADDRESS");
+      $cMailFromName       = get_config_db("MAIL_FROM_NAME") ?: get_const("MAIL_FROM_NAME");
+      $cMailReplyAddress   = get_config_db("MAIL_REPLY_ADDRESS") ?: get_const("MAIL_REPLY_ADDRESS");
+      $cMailSupportAddress = get_config_db("MAIL_SUPPORT_ADDRESS") ?: get_const("MAIL_SUPPORT_ADDRESS");
+
+      if(!empty($cMailHost)
+          && !empty($cMailPort)
+          && !empty($cMailUser)
+          && !empty($cMailPass)
           && 1==1)
       {
         $arrAux = array();
 
-        $arrAux[] = get_const("MAIL_USERNAME");
+        $arrAux[] = $cMailUser;
 
         $cAux = $arrAux[array_rand($arrAux)];
 
-        $transport = (new \Swift_SmtpTransport(get_const("MAIL_HOST"), get_const("MAIL_PORT"), get_const("MAIL_ENCRYPTION")))
+        $transport = (new \Swift_SmtpTransport($cMailHost, $cMailPort, $cMailEncr))
                       ->setUsername($cAux)
-                      ->setPassword(get_const("MAIL_PASSWORD"));
+                      ->setPassword($cMailPass);
 
         $mailer  = new \Swift_Mailer($transport);
         $message = new \Swift_Message();
 
-        $cAux     = get_const("MAIL_FROM_ADDRESS") ?: $cAux;
-        $cFrom    = get_const("MAIL_FROM_NAME") ?: "noreply";
-        $cReplyTo = get_const("MAIL_REPLY_ADDRESS") ?: $cAux;
+        $cAux     = $cMailFromAddress ?: $cAux;
+        $cFrom    = $cMailFromName ?: "noreply";
+        $cReplyTo = $cMailReplyAddress ?: $cAux;
 
         $message->setCharset('utf-8');
 
@@ -51,7 +62,7 @@ class MensajeNotificacion
 
         $body = str_replace("{%HEADER%}", $Mensaje["header"], $body);
 
-        if($es_auto)
+        if($es_auto === true)
         {
           $Mensaje["body"].='<br />
           <div style="text-align:center; font-size:10pt; margin:0 auto; width:90%;"><i>Este mensaje fue generado por un sistema automatizado
@@ -62,10 +73,8 @@ class MensajeNotificacion
 
         if(empty($Mensaje["footer"]))
         {
-          $cEmailSoporte = get_config_db("CORREO_CONTACTO_SOPORTE") ?: "soporte@gmail.com";
-
-          $Mensaje["footer"] = '<div style="text-align: center; color:#FFFFFF;"><a href="'.$cEmailSoporte.'"
-          style="color:#FFFFFF">'.$cEmailSoporte.'</a></div>';
+          $Mensaje["footer"] = '<div style="text-align: center; color:#FFFFFF;"><a href="'.$cMailSupportAddress.'"
+          style="color:#FFFFFF">'.$cMailSupportAddress.'</a></div>';
         }
 
         $body = str_replace("{%FOOTER%}", $Mensaje["footer"], $body);

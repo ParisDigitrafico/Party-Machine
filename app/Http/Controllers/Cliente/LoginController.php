@@ -512,7 +512,7 @@ class LoginController extends Controller
   {
     $response = array();
 
-    return view('cliente.login.message_simple', $response)->render();
+    return view('cliente.pages.login.message_simple', $response)->render();
   }
 
   public function redirect(Request $request, $provider)

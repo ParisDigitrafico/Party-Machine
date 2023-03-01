@@ -1,6 +1,6 @@
 @extends('website.layouts.cliente')
 
-@push("content")
+@push("main")
 <div class="content">
 
 <section>

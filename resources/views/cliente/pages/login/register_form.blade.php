@@ -1,6 +1,6 @@
 @extends('website.layouts.cliente')
 
-<<style>
+<style>
     .div-icon
     {
     border: 1px solid #ced4da;
