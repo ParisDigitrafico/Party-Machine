@@ -185,12 +185,12 @@ class LoginController extends Controller
         header("location:/cliente/login/forgot/?" . http_build_query($response));
         exit;
 
-        return view('cliente.login.login_forgot', $response)->render();
+        return view('cliente.pages.login.login_forgot', $response)->render();
       }
     }
     else
     {
-      return view('cliente.login.login_forgot', $response)->render();
+      return view('cliente.pages.login.login_forgot', $response)->render();
     }
   }
 
@@ -286,6 +286,7 @@ class LoginController extends Controller
 
     setcookie('app', '', 0, '/');
     setcookie('uid', '', 0, '/');
+    setcookie('fpt', '', 0, '/');
 
     header("location:/cliente/login/");
     exit;
@@ -317,15 +318,14 @@ class LoginController extends Controller
 
       // Validator::make($request->all(), $rules)->setAttributeNames($message)->validate();
 
-      $objConfirm = new AccConfirmarCuenta;
+      $objConfirm = new AccConfirmarCuenta();
       $objUsuario = new AccUsuario();
 
       $cEmail = trim(strtolower(request()->get("email")));
 
-      $AuxResponse = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();
-    
+      $usuario = $objUsuario->filterActivos()->filterUserPass($cEmail, $cPassword)->where("es_cliente", 1)->first();
 
-      if($AuxResponse["code"] == 200)
+      if($usuario)
       {
         $response["code"]    = 500;
         $response["message"] = "Este correo electrónico ya ha sido registrado previamente, favor de verificar.";
@@ -362,7 +362,7 @@ class LoginController extends Controller
           $Mensaje["body"].= '<p style="text-align: justify">Si no es posible acceder con un click,
           copie y pege el enlace en la barra de direcciones de su navegador web.</p>';
 
-          $bStatus = MensajeNotificacion::EnviarMensaje($Mensaje);
+          $bAux = MensajeNotificacion::EnviarMensaje($Mensaje);
 
           $response["code"]    = 200;
           $response["message"] = "Hemos enviado un mensaje a su correo electrónico favor de revisar su bandeja
@@ -389,7 +389,7 @@ class LoginController extends Controller
               $Dato["pswd"]       = sha1(request()->get("pswd"));
               $Dato["created_at"] = now();
 
-              $objConfirm->insert($Dato);
+              $confirm_id = $objConfirm->insertGetId($Dato);
 
               $Mensaje = array();
 
@@ -413,7 +413,14 @@ class LoginController extends Controller
               $Mensaje["body"].= '<p style="text-align: justify">Si no es posible acceder con un click,
               copie y pege el enlace en la barra de direcciones de su navegador web.</p>';
 
-              $bStatus = MensajeNotificacion::EnviarMensaje($Mensaje);
+              $bAux = MensajeNotificacion::EnviarMensaje($Mensaje);
+
+              if($bAux)
+              {
+                $objConfirm->whereId($confirm_id)->update(["es_enviado"=>1]);
+              }
+
+              exit(var_dump($bAux));
 
               $response["code"]    = 200;
               $response["message"] = "Hemos enviado un mensaje a su correo electrónico favor de revisar su bandeja

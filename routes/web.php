@@ -1,6 +1,5 @@
 <?php
 Route::prefix('sistema')->group(function(){
-
   Route::prefix('login')->group(function(){
     Route::get('/','Sistema\LoginController@Login');
     Route::post('/authentication','Sistema\LoginController@authentication');
