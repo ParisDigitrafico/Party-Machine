@@ -36,7 +36,7 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ session("cliente_nombre") }}
+                    {{ session("cliente_nombre_completo") }}
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

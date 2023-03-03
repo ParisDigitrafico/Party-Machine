@@ -50,13 +50,13 @@ class LoginController extends Controller
 
     $objUsuario = new AccUsuario();
 
-    $AuxResponse = $objUsuario->where('es_cliente' == 1 );
+    $usuario = $objUsuario->where('es_cliente' == 1 );
 
-    var_dump($AuxResponse);
+    exit(var_dump($usuario));
 
-    if($AuxResponse["code"] == 200)
+    if($usuario)
     {
-      $data = $AuxResponse["data"];
+      $data = $usuario["data"];
 
       $cFilename = storage_path('app/clientes/'. $data["id"] .'.txt');
 
@@ -64,11 +64,11 @@ class LoginController extends Controller
       {
         $cPassword = customDecrypt(file_get_contents($cFilename, true));
 
-        $AuxResponse = $objUsuario->where('pass')($data["user"], $cPassword);
+        $usuario = $objUsuario->where('pass')($data["user"], $cPassword);
 
-        if($AuxResponse["code"] == 200)
+        if($usuario)
         {
-          $data = $AuxResponse["data"];
+          $data = $usuario["data"];
 
           session()->put('app', $this->app);
           session()->put('cliente_id', $data["id"]);
@@ -105,7 +105,7 @@ class LoginController extends Controller
       session()->put('usuario_id', $usuario->id);
       session()->put('cliente_user', $usuario->user);
       session()->put('usuario_user', $usuario->user);
-      session()->put('cliente_nombre', $usuario->nombre." ".$usuario->apellidos);
+      session()->put('cliente_nombre_completo', $usuario->nombre." ".$usuario->apellidos);
 
       session()->save();
 
@@ -129,14 +129,14 @@ class LoginController extends Controller
 
     if($request->isMethod('post'))
     {
-      $objUsuario  = new AccUsuario();
-      $objConfirm = new AccConfirmarCuenta;
+      $objUsuario = new AccUsuario();
+      $objConfirm = new AccConfirmarCuenta();
 
       $cEmail = trim(strtolower($request->get("email")));
 
-      $AuxResponse = $objUsuario->filterActivos()->where("es_cliente",1)->where("user",$cEmail)->first();
+      $cliente = $objUsuario->filterActivos()->where("es_cliente",1)->where("user",$cEmail)->first();
 
-      if($AuxResponse["code"] == 200)
+      if($cliente)
       {
         $confirmacion = $objConfirm->where("email", $cEmail)
                                               ->where("tipo","CLIENTE")->where("status",0)
@@ -144,11 +144,12 @@ class LoginController extends Controller
 
         if(!empty($confirmacion->created_at) && get_minutes_diference(now(), $confirmacion->created_at) < (24*60))
         {
-          MensajeNotificacion::EnviarMensajeInstruccionRestablecer($cEmail, $confirmacion->ckey, "cliente");
+          MensajeNotificacion::EnviarCorreoInstruccionRestablecer($cEmail, $confirmacion->ckey, "cliente");
 
-          $response["code"]    = 204;
-          $response["message"] = "Hemos reenviado un mensaje a su correo electrónico con las instrucciones para restablecer
-          su contraseña, si no lo encuentra en su bandeja de entrada, favor de verificar en su carpeta de SPAM.";
+          $response["code"]    = 200;
+          $response["message"] = 'Hemos reenviado un mensaje a su correo electr&oacute;nico con las instrucciones para restablecer
+          su contrase&ntilde;a, si no lo encuentra en su bandeja de entrada, favor de verificar en su carpeta de SPAM.
+          <br><a href="/cliente/">Regresar</a>';
         }
         else
         {
@@ -161,17 +162,19 @@ class LoginController extends Controller
 
           if($objConfirm->insert($Dato))
           {
-            MensajeNotificacion::EnviarMensajeInstruccionRestablecer($cEmail, $Dato["ckey"], "cliente");
+            MensajeNotificacion::EnviarCorreoInstruccionRestablecer($cEmail, $Dato["ckey"], "cliente");
 
             $response["code"]    = 200;
-            $response["message"] = "Hemos Enviado un mensaje a su correo electrónico con las instrucciones para restablecer
-            su contraseña.";
+            $response["message"] = 'Hemos Enviado un mensaje a su correo electr&oacute;nico con las instrucciones para restablecer
+            su contrase&ntilde;a.<br><a href="/cliente/">Regresar</a>';
 
             $response["reenviar"] = base64_encode($Dato["email"]);
           }
           else
           {
-            $response["message"] = "Existe un error al intentar restablecer la contraseña, favor de contactar con soporte técnico.";
+            $response["code"]    = 500;
+            $response["message"] = "Existe un error al intentar restablecer la contrase&ntilde;a,
+            favor de contactar con soporte t&eacute;cnico.";
           }
         }
 
@@ -180,7 +183,8 @@ class LoginController extends Controller
       }
       else
       {
-        $response["message"] = "No existe una cuenta relacionada al correo electrónico ingresado, favor de verificar.";
+        $response["code"]    = 500;
+        $response["message"] = "No existe una cuenta relacionada al correo electr&oacute;nico ingresado, favor de verificar.";
 
         header("location:/cliente/login/forgot/?" . http_build_query($response));
         exit;
@@ -198,20 +202,19 @@ class LoginController extends Controller
   {
     $response = array();
 
-    $objUsuario  = new AccUsuario();
-    $objConfirm = new AccConfirmarCuenta;
+    $objUsuario = new AccUsuario();
+    $objConfirm = new AccConfirmarCuenta();
 
     $confirmacion = $objConfirm->where("ckey", $ckey)->where("tipo", "CLIENTE")
                         ->whereRaw(" created_at >= DATE_SUB(STR_TO_DATE('".now()."','%Y-%m-%d %H:%i:%s'), INTERVAL 24 HOUR) ")->first();
 
+    $cUrl = get_const("APP_URL") . '/'. $this->app . '/login/close/';
 
-    $cUrl = get_const("APP_URL").'/cliente/login/';
-
-    $cEnlace = '<p style="text-align:center"><a href="'.$cUrl.'">'.$cUrl.'</a></p>';
+    $cEnlace = '<p style="text-align:center"><a href="'.$cUrl.'">Iniciar Sesi&oacute;n</a></p>';
 
     $response["message"] = "";
 
-    if(!empty($confirmacion->id))
+    if($confirmacion)
     {
       if($confirmacion->status)
       {
@@ -222,36 +225,35 @@ class LoginController extends Controller
       }
       else
       {
-        $AuxResponse = $objUsuario->get_cliente_ecommerce_by_email($confirmacion->email);
+        $cliente = $objUsuario->filterActivos()->where("es_cliente",1)->where("user",$confirmacion->email)->first();
 
-        if($AuxResponse["code"] == 200)
+        if($cliente)
         {
-          $Dato = $AuxResponse["data"];
-
           $cUser = $confirmacion->email;
           $cPass = get_random_string(8);
 
-          $Dato["password"] = $cPass;
+          $cliente->pass = sha1($cPass);
 
-          $AuxResponse = $objUsuario->put_cliente_ecommerce($Dato);
-
-          if($AuxResponse["code"] == 200)
+          if($cliente->save())
           {
-            $response["message"] = "<p style='text-align: center;'>Estimado(a) <b>".$Dato["name"]."</b>, por seguridad
-              te proporcionamos una <b>contraseña aleatoria</b> que le permitira acceder a su cuenta,
-                        tambien <b>hemos enviado un mensaje a su correo electrónico con dicha información:</b></p><br />";
+            $response["message"] = "<p style='text-align: center;'>Estimado(a) <b>".$cliente->ObtenerNombreCompleto()."</b>, por seguridad
+              te proporcionamos una <b>contrase&ntilde;a aleatoria</b> que le permitira acceder a su cuenta,
+                        tambien <b>hemos enviado un mensaje a su correo electr&oacute;nico con dicha informaci&oacute;n:</b></p>";
 
-            $response["message"].= "<p style='text-align: center;'>Usuario: <b>".$cUser."</b><br />Nueva Contraseña: <b>".$cPass."</b></p><br />";
+            $response["message"].= "<p style='text-align: center;'>Usuario: <b>".$cUser."</b><br />Nueva Contrase&ntilde;a:
+            <b>".$cPass."</b></p>";
 
-            $response["message"].= "<p style='text-align: center;'>Le recomendamos cambiar la contraseña una vez acceda
-            en el menú <b>Seguridad y datos personales</b>.</p>";
+            $response["message"].= "<p style='text-align: center;'>Le recomendamos cambiar la contrase&ntilde;a una vez acceda
+            en el men&uacute; <b>Seguridad y datos personales</b>.</p>";
 
             $response["message"].= "<center>________________________________________</center><br />";
             $response["message"].= $cEnlace;
 
-            $objConfirm->where("id",$confirmacion->id)->update(["status"=>1]);
+            $confirmacion->status = 1;
 
-            MensajeNotificacion::EnviarMensajeContraseniaRestablecida($cUser,$cUser,$cPass,"cliente");
+            $confirmacion->save();
+
+            MensajeNotificacion::EnviarCorreoContraseniaRestablecida($cUser,$cUser,$cPass,"cliente");
           }
           else
           {
@@ -276,7 +278,7 @@ class LoginController extends Controller
       $response["message"].= $cEnlace;
     }
 
-    return view('cliente.login.login_reset', $response)->render();
+    return redirect()->to('/cliente/message/?' . http_build_query($response));
   }
 
   public function close(Request $request)
@@ -420,7 +422,6 @@ class LoginController extends Controller
                 $objConfirm->whereId($confirm_id)->update(["es_enviado"=>1]);
               }
 
-              exit(var_dump($bAux));
 
               $response["code"]    = 200;
               $response["message"] = "Hemos enviado un mensaje a su correo electrónico favor de revisar su bandeja

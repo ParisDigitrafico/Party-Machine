@@ -2,13 +2,7 @@
 
 @push("main")
 <style>
-.divider:after,
-.divider:before {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #eee;
-}
+
 .h-custom {
     height: calc(100% - 73px);
 }
@@ -16,12 +10,6 @@
 .h-custom {
     height: 100%;
 }
-}
-
-.only-robot
-{
-  width: 150px;
-  height: auto;
 }
 </style>
 

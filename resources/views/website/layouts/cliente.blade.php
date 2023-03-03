@@ -18,6 +18,12 @@
     .area_cliente {
         min-height: 400px;
     }
+
+    .only-robot
+    {
+        width: 150px;
+        height: auto;
+    }
     </style>
 </head>
 

@@ -5,12 +5,12 @@
 <section>
    <div class="container">
         <div class="row d-flex align-items-center">
-            <div class="col-md-12 offset-lg-6 col-lg-6 cont_form"> 
+            <div class="col-md-12 offset-lg-6 col-lg-6 cont_form">
               <div class="cont">
           {!! $message !!}
         </div>
-         <div class="fondo lazy" data-src="/static/website/images/temp/fondo_contacto.png">
-            <img class="img" src="/static/website/images/temp/img_contacto.png">
+         <div class="fondo lazy" data-src="/static/website/images/robot_globo.png">
+            <img class="img" src="/static/website/images/robot_globo.png">
           </div>
       </div>
     </div>

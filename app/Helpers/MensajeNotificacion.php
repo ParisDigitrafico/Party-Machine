@@ -116,23 +116,26 @@ class MensajeNotificacion
     return $response;
   }
 
-  static function EnviarCorreoInstruccionRestablecer($toAddress="", $cKey="")
+ static function EnviarCorreoInstruccionRestablecer($toAddress="", $cKey="", $cTipoUsuario="sistema")
   {
     $Mensaje = array();
 
-    $Mensaje["subject"] = "Kantunchi - Restablecer Acceso a Cuenta - " . date("YmdHis");
+    $Mensaje["subject"] = "Party Machine - Restablecer Acceso a Cuenta";
 
     $Mensaje["to"] = trim(strtolower($toAddress));
 
     $Mensaje["body"] = '<p style="text-align: justify">Para poder restablecer su contrase&ntilde;a es necesario ir al siguiente enlace:</p>';
 
-    $cUrl = get_host().'/sistema/login/reset/?k='.$cKey;
+    $cUrl = get_host() .'/'. $cTipoUsuario .'/login/reset/'. $cKey .'/';
 
-    $Mensaje["body"].= '<a href="'.$cUrl.'" target="_blank">'.$cUrl.'</a><br /><br />';
+    $Mensaje["body"].= '<p style="text-align: center">
+    <a href="'.$cUrl.'" target="_blank">'.$cUrl.'</a></p>';
 
-    $Mensaje["body"].= '<p style="text-align: justify">Si no puede acceder con un click, copie y pege el enlace en la barra de direcciones de su navegador web</p>';
+    $Mensaje["body"].= '<p style="text-align: justify">Si no puede acceder con un click,
+    copie y pege el enlace en la barra de direcciones de su navegador web</p>';
 
-    $Mensaje["body"].= '<p style="text-align: justify">Si usted no ha solicitado restablecer su contrase&ntilde;a, por favor ignore este mensaje, ';
+    $Mensaje["body"].= '<p style="text-align: justify">Si usted no ha solicitado restablecer su contrase&ntilde;a,
+    por favor ignore este mensaje, ';
 
     $Mensaje["body"].= 'este enlace caducar&aacute; autom&aacute;ticamente dentro de 24 horas.</p>';
 
@@ -143,20 +146,17 @@ class MensajeNotificacion
     self::EnviarMensaje($Mensaje);
   }
 
-  static function EnviarCorreoContraseniaRestablecida($toAddress="", $cLogin="", $cPassword="", $cTipoUsuario="")
+  static function EnviarCorreoContraseniaRestablecida($toAddress="", $cLogin="", $cPassword="")
   {
     $Mensaje = array();
 
-    $Mensaje["subject"] = "Kantunchi - Acceso de Usuario Restablecido por Sistema Automatizado - " . date("YmdHis");
+    $Mensaje["subject"] = "Party Machine - Acceso de Usuario Restablecido por Sistema Automatizado";
 
     $Mensaje["body"] = "";
 
     $Mensaje["body"].= "Los datos de acceso han sido correctamente modificados.<br /><br />";
     $Mensaje["body"].= "Usuario : <b>$cLogin</b><br />";
     $Mensaje["body"].= (!empty($cPassword)) ? "Password : <b>$cPassword</b><br /><br />" : "";
-    /*$Mensaje.= (!empty($cTipoUsuario)) ? "Categor&iacute;a : {$cTipoUsuario}<br /><br />" : "";*/
-
-    $Mensaje["body"].= self::MensajeNoContactar();
 
     $Mensaje["to"] = trim(strtolower($toAddress));
 
