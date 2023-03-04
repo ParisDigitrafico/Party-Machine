@@ -36,13 +36,12 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ session("cliente_nombre_completo") }}
+                    {{ session("usuario_nombre_completo") }}
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/cliente/">Mi Perfil</a>
                     <a class="dropdown-item" href="/cliente/pedidos/">Mis Pedidos</a>
-                    <a class="dropdown-item" href="/cliente/direcciones/">Mis Direcciones</a>
                     <a class="dropdown-item" href="/cliente/login/close/">Cerrar Sesión</a>
                 </div>
             </div>

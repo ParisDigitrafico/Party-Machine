@@ -33,7 +33,16 @@ class LoginController extends Controller
   {
     $response = array();
 
-    if(!empty(session("cliente_id")))
+    if(empty(request()->cookie('fpt')))
+    {
+      $iMinutes = 60 * 24 * 365 * 5;
+
+      $fpt = sha1(microtime(true));
+
+      Cookie::queue(Cookie::make('fpt', $fpt, $iMinutes, null, null, true));
+    }
+
+    if(!empty(session("usuario_id")))
     {
       return redirect()->to("/cliente/");
     }
@@ -41,46 +50,59 @@ class LoginController extends Controller
     return view('cliente.pages.login.login_form', $response)->render();
   }
 
-  public function process($cliente_id)
+  public function process($usuario_id)
   {
     $response = false;
 
     session()->flush();
     session()->save();
 
-    $objUsuario = new AccUsuario();
+    $objUsuario    = new AccUsuario();
+    $objCtrlSesion = new AccControlSesion();
 
-    $usuario = $objUsuario->where('es_cliente' == 1 );
-
-    exit(var_dump($usuario));
+    $usuario = $objUsuario->filterActivos()->whereId($usuario_id)->where('es_cliente',1)->first();
 
     if($usuario)
     {
-      $data = $usuario["data"];
+      $cMedio = "WEB";
+      $cFpt   = request()->cookie('fpt') ?: sha1(microtime(true));
 
-      $cFilename = storage_path('app/clientes/'. $data["id"] .'.txt');
+      session()->put('app', $this->app);
+      session()->put('usuario_id', $usuario->id);
+      session()->put('usuario_user', $usuario->user);
+      session()->put('usuario_token', $usuario->token);
 
-      if(is_file($cFilename))
+      session()->put('medio', $cMedio);
+      session()->put('fpt', $cFpt);
+
+      session()->save();
+
+      $item = $objCtrlSesion->where("usuario_id", $usuario->id)->where("app",$this->app)
+                  ->where("medio", $cMedio)->where("dispositivo_fp", $cFpt)->first();
+
+      if(is_null($item))
       {
-        $cPassword = customDecrypt(file_get_contents($cFilename, true));
+        $Dato = array();
 
-        $usuario = $objUsuario->where('pass')($data["user"], $cPassword);
+        $Dato["usuario_id"]     = $usuario->id;
+        $Dato["app"]            = $this->app;
+        $Dato["medio"]          = $cMedio;
+        $Dato["dispositivo_fp"] = $cFpt;
+        $Dato["created_at"]     = now();
 
-        if($usuario)
-        {
-          $data = $usuario["data"];
-
-          session()->put('app', $this->app);
-          session()->put('cliente_id', $data["id"]);
-          session()->put('cliente_email', $data["user"]);
-          session()->put('cliente_nombre', $data["nombre"]);
-          session()->put('cliente_pswd', sha1($cPassword));
-
-          session()->save();
-
-          $response = true;
-        }
+        $objCtrlSesion->insert($Dato);
       }
+
+      $response = true;
+    }
+    else
+    {
+      session()->flush();
+      session()->save();
+
+      setcookie('app', '', 0, '/');
+      setcookie('uid', '', 0, '/');
+      setcookie('fpt', '', 0, '/');
     }
 
     return $response;
@@ -101,11 +123,9 @@ class LoginController extends Controller
     if($usuario)
     {
       session()->put('app', $this->app);
-      session()->put('cliente_id', $usuario->id);
       session()->put('usuario_id', $usuario->id);
-      session()->put('cliente_user', $usuario->user);
       session()->put('usuario_user', $usuario->user);
-      session()->put('cliente_nombre_completo', $usuario->nombre." ".$usuario->apellidos);
+      session()->put('usuario_nombre_completo', $usuario->ObtenerNombreCompleto());
 
       session()->save();
 
@@ -298,7 +318,7 @@ class LoginController extends Controller
   {
     $response = array();
 
-    if(!empty(session("cliente_id")))
+    if(!empty(session("usuario_id")))
     {
       header("location:/cliente/");
       exit;

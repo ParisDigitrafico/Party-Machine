@@ -33,54 +33,48 @@ class HomeController extends MController
 
     $objUsuario = new AccUsuario();
 
-    $usuario = $objUsuario->whereId(session('usuario_id'))->first();
+    $query = $objUsuario->whereId(session('usuario_id'));
+
+    $usuario = $query->first();
 
     if($usuario)
     {
-      $Dato = $usuario["data"];
-
       if($request->isMethod('post'))
       {
-        $cFilename = storage_path('app/clientes/'.session("cliente_id").'.txt');
+        $Dato = array();
 
-        if(is_file($cFilename))
+        if(!empty($request->get("oldpswd")) && !empty($request->get("newpswd")))
         {
-          $cPassword = customDecrypt(file_get_contents($cFilename, true));
+          $cAux = trim($request->get("oldpswd"));
 
-          $Dato["password"] = $cPassword;
-
-          if(!empty($request->get("oldpswd")) && !empty($request->get("newpswd")))
+          if($usuario->pass != sha1($cAux))
           {
-            if($cPassword != $request->get("oldpswd"))
-            {
-              $response["message"] = "La Contraseña antigua no coincide con la registrada en nuestro sistema.";
-              header("location:/cliente/cuenta/?" . http_build_query($response));
-              exit;
-            }
-            else
-            {
-              $cPassword = $request->get("newpswd");
-              $Dato["password"] = $cPassword;
-            }
+            $response["message"] = "La Contraseña antigua no coincide con la registrada en nuestro sistema.";
+
+            return redirect()->to('/cliente/cuenta/?' . http_build_query($response));
+          }
+          else
+          {
+            $cAux = trim($request->get("newpswd"));
+            $Dato["pass"] = sha1($cAux);
           }
         }
 
-        $cAux = $request->get("name");
+        $Dato["nombre"]    = $request->get("name");
+        $Dato["apellidos"] = $request->get("lastname");
+        $Dato["telefono"]  = $request->get("phone");
 
-        $Dato["name"]  = ucwords($cAux);
-        $Dato["phone"] = $request->get("phone");
-        $Dato["rfc"]   = strtoupper($request->get("rfc"));
+        $bAux = $query->update($Dato);
 
-        $apiResponse = $objFbazar->put_cliente_ecommerce($Dato);
-
-        if($apiResponse["code"] == 200)
+        if($bAux)
         {
-          session()->put('nombre_cliente', $Dato["name"]);
-          session()->put('pswd_cliente', sha1($cPassword));
+          $usuario = $query->first();
+
+          session()->put('usuario_nombre', $usuario->ObtenerNombreCompleto());
 
           session()->save();
 
-          $response["code"]    = 200;
+          $response["status"]  = 200;
           $response["message"] = "Sus datos han sido actualizados correctamente.";
         }
         else
@@ -89,11 +83,10 @@ class HomeController extends MController
           por favor vuelva a intentearlo.";
         }
 
-        header("location:/cliente/cuenta/?" . http_build_query($response));
-        exit;
+        return redirect()->to('/cliente/cuenta/?' . http_build_query($response));
       }
 
-      $response["data"] = $Dato;
+      $response["data"] = $usuario;
 
       return view('cliente.pages.cuenta.cuenta_form', $response)->render();
     }

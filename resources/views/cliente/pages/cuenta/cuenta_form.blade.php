@@ -9,7 +9,7 @@
             <div class="col-md-12 cont_form">
                 <h3>Seguridad y datos personales</h3><br>
 
-                @if(request()->get("code") == 200 && request()->get("message"))
+                @if(request()->get("status") == 200 && request()->get("message"))
                 <div style="text-align: center"><span
                         style="color: #669933"><b>{{ request()->get("message") }}</b></span></div><br><br>
                 @elseif(request()->get("message"))
@@ -33,7 +33,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-4">
                             <label for="Nombre">*Nombre</label>
-                            <input type="text" class="form-control" name="name" value="{{ $data["nombre"] }}"
+                            <input type="text" class="form-control" name="name" value="{{ $data->nombre }}"
                                 data-validetta="required,minLength[3]" style="">
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="form-group mb-4">
                             <label>*Telefono</label>
                             <input type="text" class="form-control" name="phone"
-                                value="{{ $data['phone'] }}" maxlength="10"
+                                value="{{ $data->telefono }}" maxlength="10"
                                 data-validetta="required,number,minLength[10],maxLength[10]" style="">
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-4">
                             <label>*Apellidos</label>
-                            <input type="text" class="form-control" name="apellidos" value="{{ $data['apellidos'] }}"
+                            <input type="text" class="form-control" name="lastname" value="{{ $data->apellidos }}"
                             data-validetta="required,minLength[3]" style="">
                         </div>
                     </div>
