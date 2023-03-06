@@ -28,7 +28,7 @@
                 <span class="text total" style="font-size: 10pt;padding-bottom: ;padding: 0 0 1rem 3px;"></span>
             </a>
 
-            @if(session("app") == "cliente" && intval(session("cliente_id")) > 0)
+            @if(session("app") == "cliente" && intval(session("usuario_id")) > 0)
 
             <!-- <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="/cliente/login/close/"
                 title="Salir"><i class="fas fa-sign-out-alt"></i></a> -->

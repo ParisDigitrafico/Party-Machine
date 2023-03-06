@@ -192,7 +192,7 @@ class PedidosApiController extends MController
     return response()->json($response);
   }
 
-  public function addProductoCantidadByCKey(Request $request, $ckey, $producto_id, $cantidad)
+    public function addProductoCantidadByCKey(Request $request, $ckey, $producto_id, $cantidad)
   {
     $response = array();
 
@@ -209,59 +209,48 @@ class PedidosApiController extends MController
     if($pedido)
     {
       $pedido_det = $pedido->detalles()->where("producto_id", $producto_id)->first();
+      $producto = $objProducto->whereId($producto_id)->first();  
 
       if($pedido_det)
       {
-        /*$data = array();
+        $data = array();
 
-        $pedido_det->cantidad = intval($pedido_det->cantidad) + intval($cantidad);
+       /* $pedido_det->cantidad = intval($pedido_det->cantidad) + intval($cantidad);
 
-        $pedido_det->save();
+        $pedido_det->save();*/
+
+        $data["pedido_id"]       = $pedido->id;
+        $data["producto_id"]     = $producto->id;
+        $data["producto_nombre"] = $producto->nombre;
+        $data["precio"]          = $producto->precio;
+        $data["cantidad"]        = intval($cantidad);
+
+        $pedido_det_id = $objPedDet->insertGetId($data);
 
         $response["status"]  = 200;
-        $response["success"] = true;*/
+        $response["success"] = true;
 
-        $response["status"]  = 200;
-        $response["message"] = 'Ya tiene un producto de este tipo.';
       }
       else
       {
         $producto = $objProducto->whereId($producto_id)->first();
 
-        if($producto)
+        if(!empty($producto))
         {
-          $arrIdProducto = [];
+          $data = array();
 
-          $productos_tipo = $objProducto->where('tipo', $producto->tipo)->get();
+          $data["pedido_id"]       = $pedido->id;
+          $data["producto_id"]     = $producto->id;
+          $data["producto_nombre"] = $producto->nombre;
+          $data["precio"]          = $producto->precio;
+          $data["cantidad"]        = intval($cantidad);
 
-          foreach($productos_tipo as $item)
+          $pedido_det_id = $objPedDet->insertGetId($data);
+
+          if($pedido_det_id)
           {
-            $arrIdProducto[] = $item->id;
-          }
-
-          $pedidos_det = $pedido->detalles()->whereIn('producto_id',$arrIdProducto)->get();
-
-          if($pedidos_det->count() > 0)
-          {
-            $response["message"] = 'Ya tiene un producto de este tipo.';
-          }
-          else
-          {
-            $data = array();
-
-            $data["pedido_id"]       = $pedido->id;
-            $data["producto_id"]     = $producto->id;
-            $data["producto_nombre"] = $producto->nombre;
-            $data["precio"]          = $producto->precio;
-            $data["cantidad"]        = intval($cantidad);
-
-            $pedido_det_id = $objPedDet->insertGetId($data);
-
-            if($pedido_det_id)
-            {
-              $response["status"]  = 201;
-              $response["success"] = true;
-            }
+            $response["status"]  = 201;
+            $response["success"] = true;
           }
         }
       }

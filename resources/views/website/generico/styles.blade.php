@@ -18,7 +18,7 @@
 
 
 <!-- Customized Bootstrap Stylesheet -->
-<link rel="stylesheet" href="/static/website/template/aircon/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/static/website/template/aircon/custom_css/bootstrap.min.css" type="text/css">
 
 <!-- Template Stylesheet -->
 <link rel="stylesheet" href="/static/website/template/aircon/custom_css/style.css" type="text/css">

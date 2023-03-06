@@ -25,7 +25,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-4">
                             <label for="Nombre">*Correo (No puede modificarse)</label>
-                            <input type="text" class="form-control" value="{{ session('cliente_user') }}"
+                            <input type="text" class="form-control" value="{{ session('usuario_user') }}"
                                 readonly="readonly" style="">
                         </div>
                     </div>
@@ -96,7 +96,6 @@
                 </div>
 
             </form>
-
 
         </div>
 
