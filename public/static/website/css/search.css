@@ -1,0 +1,143 @@
+.form-search-filter
+{
+    width: 100%;
+    max-width: 790px;
+    margin-bottom: 0;
+}
+
+.form-search-filter .inner-form 
+{
+    background: #fff;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+.form-search-filter .inner-form .input-field 
+{
+    height: 68px;
+}
+
+.form-search-filter .inner-form .input-field.first-wrap 
+{
+    width: 200px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-search-filter .select-category
+{
+    background: transparent;
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.form-search-filter .input-select
+{
+    padding: 0 10px;
+}
+
+.form-search-filter .inner-form .input-field input.placeholder
+{
+    color: #888;
+    font-size: 16px;
+}
+
+.form-search-filter .inner-form .input-field input
+{
+    height: 100%;
+    background: transparent;
+    border: 0;
+    display: block;
+    width: 100%;
+    padding: 10px 32px;
+    font-size: 16px;
+    color: #555;
+}
+
+.form-search-filter .inner-form .input-field input:hover, .form-search-filter .inner-form .input-field input:focus
+{
+    box-shadow: none;
+    outline: 0;
+    border-color: #fff;
+}
+
+.form-search-filter .inner-form .input-field.second-wrap
+{
+    flex-grow: 1;
+}
+
+.form-search-filter .inner-form .input-field.third-wrap
+{
+    width: 74px;
+}
+
+.form-search-filter .inner-form .input-field.third-wrap .btn-search 
+{
+    height: 100%;
+    width: 100%;
+    white-space: nowrap;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    background: #ff800f;
+    transition: all .2s ease-out, color .2s ease-out;
+}
+
+.form-search-filter .inner-form .input-field.third-wrap .btn-search:hover 
+{
+    background: #ff8c26;
+}
+
+.form-search-filter .inner-form .input-field.third-wrap .btn-search:focus 
+{
+    outline: 0;
+    box-shadow: none;
+}
+
+@media screen and (max-width: 992px) 
+{
+    .form-search-filter .inner-form .input-field 
+    {
+        height: 50px;
+    }
+} 
+@media screen and (max-width: 767px) 
+{
+    .form-search-filter .inner-form 
+    {
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        padding: 20px;
+    }
+    .form-search-filter .inner-form .input-field 
+    {
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .form-search-filter .inner-form .input-field input 
+    {
+        padding: 10px 15px;
+    }
+    .form-search-filter .inner-form .input-field.first-wrap 
+    {
+        width: 100%;
+        border-right: 0;
+    }
+    .form-search-filter .inner-form .input-field.second-wrap 
+    {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    .form-search-filter .inner-form .input-field.second-wrap input 
+    {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .form-search-filter .inner-form .input-field.third-wrap 
+    {
+        margin-bottom: 0;
+        width: 100%;
+    }
+}

@@ -12,8 +12,8 @@ class GenCategoria extends SuperModel
   
   protected $columnRelArchivo = "categoria_id";
 
-  function plantillas()
+  function productos()
   {
-    return $this->hasMany(SppPlantilla::class, 'categoria_id');
+    return $this->hasMany(SppProducto::class, 'categoria_id');
   }
 }

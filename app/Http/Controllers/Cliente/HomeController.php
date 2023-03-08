@@ -12,7 +12,6 @@ use App\Helpers\Normalizador;
 
 use App\Models\AccUsuario;
 
-use App\Services\FbazarService;
 
 class HomeController extends MController
 {
@@ -32,56 +31,50 @@ class HomeController extends MController
   {
     $response = array();
 
-    $objFbazar = new FbazarService();
+    $objUsuario = new AccUsuario();
 
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_email(session("email_cliente"));
+    $query = $objUsuario->whereId(session('usuario_id'));
 
-    if($apiResponse["code"] == 200)
+    $usuario = $query->first();
+
+    if($usuario)
     {
-      $Dato = $apiResponse["data"];
-
       if($request->isMethod('post'))
       {
-        $cFilename = storage_path('app/clientes/'.session("idcliente").'.txt');
+        $Dato = array();
 
-        if(is_file($cFilename))
+        if(!empty($request->get("oldpswd")) && !empty($request->get("newpswd")))
         {
-          $cPassword = customDecrypt(file_get_contents($cFilename, true));
+          $cAux = trim($request->get("oldpswd"));
 
-          $Dato["password"] = $cPassword;
-
-          if(!empty($request->get("oldpswd")) && !empty($request->get("newpswd")))
+          if($usuario->pass != sha1($cAux))
           {
-            if($cPassword != $request->get("oldpswd"))
-            {
-              $response["message"] = "La Contraseña antigua no coincide con la registrada en nuestro sistema.";
-              header("location:/cliente/cuenta/?" . http_build_query($response));
-              exit;
-            }
-            else
-            {
-              $cPassword = $request->get("newpswd");
-              $Dato["password"] = $cPassword;
-            }
+            $response["message"] = "La Contraseña antigua no coincide con la registrada en nuestro sistema.";
+
+            return redirect()->to('/cliente/cuenta/?' . http_build_query($response));
+          }
+          else
+          {
+            $cAux = trim($request->get("newpswd"));
+            $Dato["pass"] = sha1($cAux);
           }
         }
 
-        $cAux = $request->get("name");
+        $Dato["nombre"]    = $request->get("name");
+        $Dato["apellidos"] = $request->get("lastname");
+        $Dato["telefono"]  = $request->get("phone");
 
-        $Dato["name"]  = ucwords($cAux);
-        $Dato["phone"] = $request->get("phone");
-        $Dato["rfc"]   = strtoupper($request->get("rfc"));
+        $bAux = $query->update($Dato);
 
-        $apiResponse = $objFbazar->put_cliente_ecommerce($Dato);
-
-        if($apiResponse["code"] == 200)
+        if($bAux)
         {
-          session()->put('nombre_cliente', $Dato["name"]);
-          session()->put('pswd_cliente', sha1($cPassword));
+          $usuario = $query->first();
+
+          session()->put('usuario_nombre', $usuario->ObtenerNombreCompleto());
 
           session()->save();
 
-          $response["code"]    = 200;
+          $response["status"]  = 200;
           $response["message"] = "Sus datos han sido actualizados correctamente.";
         }
         else
@@ -90,216 +83,15 @@ class HomeController extends MController
           por favor vuelva a intentearlo.";
         }
 
-        header("location:/cliente/cuenta/?" . http_build_query($response));
-        exit;
+        return redirect()->to('/cliente/cuenta/?' . http_build_query($response));
       }
 
-      $response["data"] = $Dato;
+      $response["data"] = $usuario;
 
-      return view('cliente.cuenta.cuenta_form', $response)->render();
+      return view('cliente.pages.cuenta.cuenta_form', $response)->render();
     }
 
     abort(403);
-  }
-
-  public function direcciones_list()
-  {
-    $response = array();
-
-    $objFbazar = new FbazarService();
-
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_email(session("email_cliente"));
-
-    if($apiResponse["code"] == 200)
-    {
-      $response["data"] = $apiResponse["data"];
-    }
-
-    return view('cliente.cuenta.direcciones_list', $response)->render();
-  }
-
-  public function direcciones_form()
-  {
-    $response = array();
-
-    $objFbazar = new FbazarService();
-
-    $data = array();
-
-    $response["data"] = $data;
-
-    return view('cliente.cuenta.direcciones_form', $response)->render();
-  }
-
-  public function direcciones_save()
-  {
-    $response = array();
-
-    $objFbazar = new FbazarService();
-
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_email(session("email_cliente"));
-
-    $bError = false;
-
-    if($apiResponse["code"] == 200)
-    {
-      $Dato = $apiResponse["data"];
-
-      $cFilename = storage_path('app/clientes/'.session("idcliente").'.txt');
-
-      if(is_file($cFilename))
-      {
-        $cPassword = customDecrypt(file_get_contents($cFilename, true));
-
-        if(sha1($cPassword) != session("pswd_cliente"))
-        {
-          header("location:/cliente/login/close/");
-          exit;
-        }
-
-        $Dato["password"] = $cPassword;
-      }
-
-      $Direccion = request()->get("Direccion");
-
-      if(!empty($Direccion))
-      {
-        $estado    = LocEstado::find($Direccion["codigoEstado"]);
-        $municipio = LocMunicipio::find($Direccion["codigoMunicipio"]);
-
-        $Direccion["clienteId"]       = intval(session("idcliente"));
-        $Direccion["calle"]           = strval($Direccion["calle"]);
-        $Direccion["numeroExterior"]  = strval($Direccion["numeroExterior"]);
-        $Direccion["numeroInterior"]  = strval($Direccion["numeroInterior"]);
-        $Direccion["entre"]           = strval($Direccion["entre"]);
-        $Direccion["referencia"]      = strval($Direccion["referencia"]);
-        $Direccion["codigoEstado"]    = strval($estado->clave);
-        $Direccion["codigoMunicipio"] = strval($municipio->clave);
-        $Direccion["codigoColonia"]   = intval($Direccion["codigoColonia"]);
-        $Direccion["codigoPostal"]    = intval($Direccion["codigoPostal"]);
-        $Direccion["observaciones"]   = strval($Direccion["observaciones"]);
-        $Direccion["latitud"]         = floatval($Direccion["latitud"]);
-        $Direccion["longitud"]        = floatval($Direccion["longitud"]);
-
-        /*$newClienteSad = array();
-
-        $newClienteSad["telefono"]        = strval($Dato["phone"]);
-        $newClienteSad["nombre"]          = strval($Dato["name"]);
-        $newClienteSad["rfc"]             = strval($Dato["rfc"]);
-        $newClienteSad["calle"]           = $Direccion["calle"];
-        $newClienteSad["numeroExterior"]  = $Direccion["numeroExterior"];
-        $newClienteSad["numeroInterior"]  = $Direccion["numeroInterior"];
-        $newClienteSad["entre"]           = $Direccion["entre"];
-        $newClienteSad["referencia"]      = $Direccion["referencia"];
-        $newClienteSad["codigoEstado"]    = $Direccion["codigoEstado"];
-        $newClienteSad["codigoMunicipio"] = $Direccion["codigoMunicipio"];
-        $newClienteSad["codigoColonia"]   = $Direccion["codigoColonia"];
-        $newClienteSad["codigoPostal"]    = $Direccion["codigoPostal"];
-        $newClienteSad["latitud"]         = $Direccion["latitud"];
-        $newClienteSad["longitud"]        = $Direccion["longitud"];
-
-        $apiResponse = $objFbazar->post_clientes_sad($newClienteSad);
-
-        if($apiResponse["code"] == 200)
-        {
-          $ClienteSad = $apiResponse["data"];
-
-          $Direccion["observaciones"] = strval($ClienteSad["id"]);
-
-          $Dato["direccion"][] = $Direccion;
-        }
-        else
-        {
-          $bError = true;
-          $response["message"] = "Hubo un error al guardar los datos en nuestra plataforma,
-          favor de comunicarse con soporte técnico.";
-        }*/
-
-        $Dato["direccion"][] = $Direccion;
-      }
-
-      if($bError === false)
-      {
-        $apiResponse = $objFbazar->put_cliente_ecommerce($Dato);
-
-        if($apiResponse["code"] == 200)
-        {
-          $response["success"] = true;
-          $response["message"] = trans("general.guardado_correcto");
-        }
-        else
-        {
-          $response["message"] = trans("general.error_inesperado");
-        }
-      }
-    }
-    else
-    {
-      $response["message"] = trans("general.error_inesperado");
-    }
-
-    return response()->json($response);
-  }
-
-  public function direcciones_delete($id)
-  {
-    $response = array();
-
-    $objFbazar = new FbazarService();
-
-    $apiResponse = $objFbazar->get_cliente_ecommerce_by_email(session("email_cliente"));
-
-    if($apiResponse["code"] == 200)
-    {
-      $Dato = $apiResponse["data"];
-
-      $cFilename = storage_path('app/clientes/'.session("idcliente").'.txt');
-
-      if(is_file($cFilename))
-      {
-        $cPassword = customDecrypt(file_get_contents($cFilename, true));
-
-        if(sha1($cPassword) != session("pswd_cliente"))
-        {
-          header("location:/cliente/login/close/");
-          exit;
-        }
-
-        $Dato["password"] = $cPassword;
-      }
-
-      $direcciones = $Dato["direccion"];
-
-      $arrAux = array();
-
-      foreach($direcciones as $direccion)
-      {
-        if($direccion["id"] != $id)
-        {
-          $arrAux[] = $direccion;
-        }
-      }
-
-      $Dato["direccion"] = $arrAux;
-
-      $apiResponse = $objFbazar->put_cliente_ecommerce($Dato);
-
-      if($apiResponse["code"] == 200)
-      {
-        $response["success"] = true;
-        $response["message"] = trans("general.eliminado_correcto");
-      }
-      else
-      {
-        $response["message"] = trans("general.error_inesperado");
-      }
-    }
-    else
-    {
-      $response["message"] = trans("general.error_inesperado");
-    }
-
-    return response()->json($response);
   }
 
 }

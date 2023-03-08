@@ -11,7 +11,7 @@ p, li {
 <div class="row">
 
 <div style="padding: 20px; text-align: center;">
-<img src="{{ env('APP_URL') }}/static/sistema/images/logo2.png?{{ config('app.version') }}" width="400" border="0" />
+<img src="{{ env('APP_URL') }}/static/sistema/images/logo.png?{{ config('app.version') }}" width="400" border="0" />
 </div>
 
 {%HEADER%}

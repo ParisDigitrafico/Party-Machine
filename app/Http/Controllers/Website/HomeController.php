@@ -9,10 +9,8 @@ use App\Helpers\HtmlHelper;
 use App\Helpers\Normalizador;
 
 use App\Models\AccUsuario;
-
 use App\Models\WebPagina;
-use App\Models\SppPlantilla;
-
+use App\Models\SppProducto;
 use App\Models\GenCategoria;
 
 class HomeController extends MController
@@ -29,195 +27,67 @@ class HomeController extends MController
     $pagina = WebPagina::where("clave","INICIO")->first();
 
     $response["page_title"] = $pagina->nombre;
-    
+
     $response["pagina"] = $pagina;
 
     return view('website.pages.frontpage', $response)->render();
   }
 
-   public function nosotros(Request $request)
+  public function maquina_invitaciones(Request $request)
   {
     $response = array();
 
-    $pagina = WebPagina::where("clave","NOSOTROS")->first();
+    $pagina = WebPagina::where("clave","MAQUINA DE INVITACIONES")->first();
 
     $response["page_title"] = $pagina->nombre;
-    
+
+    $response["pagina"] = $pagina;
+
+    $response["categorias"] = GenCategoria::get();
+
+    $response["data"] = SppProducto::where("tipo","plantilla")->filterStatus(1)->get();
+
+    return view('website.pages.maquina_invitaciones', $response)->render();
+  }
+
+  public function invitaciones_web(Request $request)
+  {
+    $response = array();
+
+    $pagina = WebPagina::where("clave","INVITACIONES WEB")->first();
+
+    $response["page_title"] = $pagina->nombre;
+
+    $response["pagina"] = $pagina;
+
+    return view('website.pages.invitaciones_web', $response)->render();
+  }
+
+
+  public function nosotros(Request $request)
+  {
+    $response = array();
+
+        $pagina = WebPagina::where("clave","NOSOTROS")->first();
+
+    $response["page_title"] = $pagina->nombre;
+
     $response["pagina"] = $pagina;
 
     return view('website.pages.nosotros', $response)->render();
-  }
-
-  public function destinos(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","DESTINOS")->first();
-    
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.destinos', $response)->render();
-  }
-
-  public function tiposvisas(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","tiposvisas")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.tiposvisas', $response)->render();
-  }
-
-  public function servicios(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","SERVICIOS")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.servicios', $response)->render();
-  }
-
-  public function primeravez(Request $request)
-  {
-
-    $response = array();
-
-    $pagina = WebPagina::where("clave","PRIMERA_VEZ")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.primeravez', $response)->render();
-
-  }
-  
-  public function renovacion(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","RENOVACION")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.renovacion', $response)->render();
-  }
-  
-  public function perdon(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","PERDON")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.perdon', $response)->render();
-  }
-  
-public function emergencia(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","EMERGENCIA")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.emergencia', $response)->render();
-  }
-  
-  public function construccion(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","CONSTRUCCION")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.construccion', $response)->render();
   }
 
   public function contacto(Request $request)
   {
     $response = array();
 
-    $pagina = WebPagina::where("clave","CONTACTO")->first();
+        $pagina = WebPagina::where("clave","CONTACTO")->first();
 
     $response["page_title"] = $pagina->nombre;
-    
+
     $response["pagina"] = $pagina;
 
     return view('website.pages.contacto', $response)->render();
-  }
-
-  public function faqs(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","FAQS")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.faqs', $response)->render();
-  }
-
-  public function avisoprivacidad(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","AVISO_PRIVACIDAD")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.aviso-privacidad', $response)->render();
-  }
-  public function thankyou(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","THANK-YOU")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.thank-you', $response)->render();
-  }
-
-  public function plantillas(Request $request)
-  {
-    $response = array();
-
-    $pagina = WebPagina::where("clave","PLANTILLAS")->first();
-
-    $response["page_title"] = $pagina->nombre;
-    
-    $response["pagina"] = $pagina;
-
-    $response["data"] = SppPlantilla::filterStatus(1)->get();
-
-    return view('website.pages.plantillas', $response)->render();
   }
 
 }

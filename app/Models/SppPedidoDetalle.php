@@ -9,4 +9,9 @@ class SppPedidoDetalle extends Model
 {
   protected $table      = 'spp_pedido_detalle';
   protected $primaryKey = 'id';
+
+  public function producto()
+  {
+    return $this->belongsTo(SppProducto::class, 'producto_id');
+  }
 }

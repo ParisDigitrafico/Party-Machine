@@ -23,11 +23,11 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _AgregarProductoCantidadAPedidoByCkey(ckeypedido, codigoProducto, cantidad, callback)
+  function _AgregarProductoCantidadAPedidoByCkey(ckeypedido, producto_id, cantidad, callback)
   {
     callback = callback || "";
 
-    xhr = $.post("/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/"+ cantidad +"/", {}, null, 'json');
+    xhr = $.post("/api/v1/pedidos/"+ ckeypedido +"/"+ producto_id +"/"+ cantidad +"/", {}, null, 'json');
 
     xhr.done(function(response){
       if(typeof callback === 'function')
@@ -59,11 +59,11 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _QuitarProductoAPedidoByCKey(ckeypedido, codigoProducto, callback)
+  function _QuitarProductoAPedidoByCKey(ckeypedido, producto_id, callback)
   {
     var xhr = $.ajax({
       type: "delete",
-      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ codigoProducto +"/",
+      url: "/api/v1/pedidos/"+ ckeypedido +"/"+ producto_id +"/",
       dataType: "json",
     });
 
@@ -75,7 +75,7 @@ var componente_plugins = (function($, pub)
     });
   }
 
-  function _AgregarProductoACarrito(iCodigo, iCantidad, callback)
+  function _AgregarProductoACarrito(producto_id, cantidad, callback)
   {
     var ckeypedido = util.getStorage("ckeypedido");
 
@@ -83,7 +83,7 @@ var componente_plugins = (function($, pub)
 
     if(ckeypedido)
     {
-      _AgregarProductoCantidadAPedidoByCkey(ckeypedido, iCodigo, iCantidad, callback);
+      _AgregarProductoCantidadAPedidoByCkey(ckeypedido, producto_id, cantidad, callback);
     }
     else
     {
@@ -92,7 +92,7 @@ var componente_plugins = (function($, pub)
       xhr.done(function(response){
         util.setStorage("ckeypedido", response.data.ckey, (24*60));
 
-        _AgregarProductoCantidadAPedidoByCkey(response.data.ckey, iCodigo, iCantidad, callback);
+        _AgregarProductoCantidadAPedidoByCkey(response.data.ckey, producto_id, cantidad, callback);
       });
     }
   }
@@ -146,14 +146,14 @@ var componente_plugins = (function($, pub)
       {
         cOriginal = $btnAddCarrito.html();
 
-        $btnAddCarrito.html('<span>Cargando...</span>').data("loading","1");
+        $btnAddCarrito.html('<span>...</span>').data("loading","1");
 
-        iCodigo   = $btnAddCarrito.data("codigo") || "";
+        iProducto   = $btnAddCarrito.data("producto-id") || "";
         iCantidad = $btnAddCarrito.data("cantidad") || 1;
 
-        if(iCodigo.toString().length > 0)
+        if(iProducto.toString().length > 0)
         {
-          _AgregarProductoACarrito(iCodigo, iCantidad, function(response){
+          _AgregarProductoACarrito(iProducto, iCantidad, function(response){
             if(response.success)
             {
               $btnCart    = $(".btnCart").first();
@@ -219,11 +219,16 @@ var componente_plugins = (function($, pub)
 
     $area_carrito = $("." + cClass).first();
 
-    $table = $area_carrito.find("table");
-    $tbody = $table.find("tbody");
+    // $table = $area_carrito.find("table");
+    // $tbody = $table.find("tbody");
 
-    $tbody.find("tr").each(function(index, element){
-      $tr = $(this);
+    // $tbody.find("tr").each(function(index, element){
+    //   $tr = $(this);
+
+      $items_card = $area_carrito.find(".items-card");
+      
+      $items_card.find(".div-item").each(function(index, element){
+        $tr = $(this);
 
       $txtCantidad = $tr.find(".txtCantidad").first();
 
@@ -254,13 +259,13 @@ var componente_plugins = (function($, pub)
         $btnRemove = $(this);
 
         ckey = $btnRemove.data("ckey");
-        codigoProducto = $btnRemove.data("codigo-producto");
+        producto_id = $btnRemove.data("producto-id");
 
         aux = confirm("¿Realmente deseas quitar este producto del carrito?");
 
         if(aux)
         {
-          _QuitarProductoAPedidoByCKey(ckey,codigoProducto,function(response){
+          _QuitarProductoAPedidoByCKey(ckey,producto_id,function(response){
             if(response.success)
             {
               location.href="/carrito/"+ckey;
@@ -276,7 +281,7 @@ var componente_plugins = (function($, pub)
 
       $btn = $(this);
 
-      iAux = $btn.data("idcliente") || "";
+      iAux = $btn.data("cliente_id") || "";
 
       if(iAux.toString().length > 0)
       {
@@ -284,7 +289,7 @@ var componente_plugins = (function($, pub)
       }
       else
       {
-        location.href='/login/';
+        location.href = "/cliente/";
       }
     });
   };

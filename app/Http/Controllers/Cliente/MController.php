@@ -16,7 +16,7 @@ class MController extends Controller
         $control->relogin(cookie("uid"));
       }*/
 
-      if(intval(session("cliente_id")) > 0 && session("app") === $this->app)
+      if(intval(session("usuario_id")) > 0 && session("app") === $this->app)
       {
         return $next($request);
       }

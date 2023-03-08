@@ -37,6 +37,19 @@ class AccUsuario extends SuperModel
     DB::Table("acc_usuario_perfil")->insert(array("usuario_id"=>$usuario_id,"perfil_id"=>$perfil_id));
   }
 
+  public function ObtenerNombreCompleto()
+  {
+    $response = "";
+
+    if(!empty($this->id))
+    {
+      $response = $this->nombre . " " . $this->apellidos;
+      $response = trim($response);
+    }
+
+    return $response;
+  }
+
   static function ObtenerNombreCompletoById($usuario_id)
   {
     $response = "";

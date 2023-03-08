@@ -27,19 +27,23 @@ Route::prefix('v1')->group(function(){
   /*Route::get('/pedidos/{idpedido}/add/{codigoProducto}/{cantidad}','ApiV1\PedidosApiController@addproduct')
       ->where(['idpedido' => '[0-9]+', 'codigoProducto' => '[0-9]+', 'cantidad' => '[0-9]+']);*/
 
+
   Route::get('/pedidos/{ckey}','ApiV1\PedidosApiController@showPedidoByCKey')
       ->where(['ckey' =>  '[a-zA-Z0-9]+']);
 
-  Route::post('/pedidos/{ckey}/{codigoProducto}/{cantidad}','ApiV1\PedidosApiController@addProductoCantidadByCKey')
-      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'codigoProducto' => '[0-9]+', 'cantidad' => '[0-9]+']);
+  //POST
+  Route::post('/pedidos/{ckey}/{producto_id}/{cantidad}','ApiV1\PedidosApiController@addProductoCantidadByCKey')
+      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'producto_id' => '[0-9]+', 'cantidad' => '[0-9]+']);
 
-  Route::put('/pedidos/{ckey}/{codigoProducto}/{cantidad}','ApiV1\PedidosApiController@updateProductoCantidadByCKey')
-      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'codigoProducto' => '[0-9]+', 'cantidad' => '[0-9]+']);
+  //PUT
+  Route::put('/pedidos/{ckey}/{producto_id}/{cantidad}','ApiV1\PedidosApiController@updateProductoCantidadByCKey')
+      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'producto_id' => '[0-9]+', 'cantidad' => '[0-9]+']);
 
-  Route::delete('/pedidos/{ckey}/{codigoProducto}','ApiV1\PedidosApiController@removeProductByCKey')
-      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'codigoProducto' => '[0-9]+']);
+  //DELETE
+  Route::delete('/pedidos/{ckey}/{producto_id}','ApiV1\PedidosApiController@removeProductByCKey')
+      ->where(['ckey' =>  '[a-zA-Z0-9]+', 'producto_id' => '[0-9]+']);
 
-  /*Route::post('/emailsimple','ApiController@emailsimple');*/
+
 });
 
 

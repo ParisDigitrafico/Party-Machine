@@ -1,7 +1,5 @@
 <?php
 Route::prefix('sistema')->group(function(){
-  Route::get('/','Sistema\LoginController@index');
-
   Route::prefix('login')->group(function(){
     Route::get('/','Sistema\LoginController@Login');
     Route::post('/authentication','Sistema\LoginController@authentication');
@@ -9,8 +7,6 @@ Route::prefix('sistema')->group(function(){
     Route::any('/forgot','Sistema\LoginController@forgot');
     Route::get('/reset/{ckey}','Sistema\LoginController@reset')->where(['ckey' => '[a-zA-Z0-9]+']);
   });
-
-  Route::get('/home', 'Sistema\HomeController@index');
 
   Route::prefix('usuarios')->group(function(){
     Route::get('/','Sistema\UsuariosController@index');
@@ -53,7 +49,6 @@ Route::prefix('sistema')->group(function(){
     Route::post('/{id}/action/{action}','Sistema\PaginasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
 
-
   Route::prefix('banners')->group(function(){
     Route::get('/','Sistema\BannersController@index');
     Route::get('/{id}','Sistema\BannersController@show')->where(['id' => '[0-9]+']);
@@ -74,14 +69,14 @@ Route::prefix('sistema')->group(function(){
     Route::post('/{id}/action/{action}','Sistema\ServiciosController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
 
-  Route::prefix('plantillas')->group(function(){
-    Route::get('/','Sistema\PlantillasController@index');
-    Route::get('/{id}','Sistema\PlantillasController@show')->where(['id' => '[0-9]+']);
-    Route::get('/search','Sistema\PlantillasController@search');
-    Route::get('/paginate','Sistema\PlantillasController@paginate');
-    Route::get('/form','Sistema\PlantillasController@form');
-    Route::post('/save','Sistema\PlantillasController@savecustom');
-    Route::post('/{id}/action/{action}','Sistema\PlantillasController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
+  Route::prefix('productos')->group(function(){
+    Route::get('/','Sistema\ProductosController@index');
+    Route::get('/{id}','Sistema\ProductosController@show')->where(['id' => '[0-9]+']);
+    Route::get('/search','Sistema\ProductosController@search');
+    Route::get('/paginate','Sistema\ProductosController@paginate');
+    Route::get('/form','Sistema\ProductosController@form');
+    Route::post('/save','Sistema\ProductosController@savecustom');
+    Route::post('/{id}/action/{action}','Sistema\ProductosController@action')->where(['id' => '[0-9]+', 'action' => '.*']);
   });
 
   Route::prefix('logs')->group(function(){
@@ -100,8 +95,12 @@ Route::prefix('sistema')->group(function(){
     Route::post('/save','Sistema\ConfiguracionesController@save');
   });
 
-  Route::get('/table/{table}/last_updated','ApiController@get_last_updated')->where(['table' => '.*']);
-  Route::get('/jsontable/{table}','Sistema\HomeController@getJsonTable')->where(['table' => '.*']);
+  Route::prefix('/')->group(function(){
+    Route::get('/','Sistema\LoginController@index');
+    Route::get('/home', 'Sistema\HomeController@index');
+    Route::get('/table/{table}/last_updated','ApiController@get_last_updated')->where(['table' => '.*']);
+    Route::get('/jsontable/{table}','Sistema\HomeController@getJsonTable')->where(['table' => '.*']);
+  });
 });
 
 Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
@@ -117,8 +116,12 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::any('/register','Cliente\LoginController@register');
       Route::get('/confirm/{ckey}','Cliente\LoginController@confirmregister')->where(['ckey' => '[a-zA-Z0-9]+']);
     });
-
+    
     Route::get('/','Cliente\HomeController@index');
+    Route::any('/cuenta','Cliente\HomeController@cuenta_form');
+    Route::get('/message','Cliente\LoginController@print_message'); 
+
+    
 
     Route::prefix('visas')->group(function(){
       Route::get('/','Cliente\VisasController@list');
@@ -128,23 +131,19 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
 
   Route::prefix('/')->group(function(){
     Route::get('/','Website\HomeController@index');
-    Route::get('/nosotros','Website\HomeController@nosotros');
-    Route::get('/destinos','Website\HomeController@destinos');
-    Route::get('/tiposvisas','Website\HomeController@tiposvisas');
-    Route::get('/servicios','Website\HomeController@servicios');
+    Route::get('/maquina-de-invitaciones','Website\HomeController@maquina_invitaciones');
+    Route::get('/invitaciones-web','Website\HomeController@invitaciones_web');
     Route::get('/contacto','Website\HomeController@contacto');
-    Route::get('/faqs','Website\HomeController@faqs');
-    Route::get('/aviso-privacidad','Website\HomeController@avisoprivacidad');
-    Route::get('/thank-you','Website\HomeController@thankyou');
+    Route::get('/nosotros','Website\HomeController@nosotros');
 
-    Route::get('/plantillas','Website\HomeController@plantillas');
 
-    Route::prefix('/servicios')->group(function(){
-      // Route::get('/primeravez','Website\HomeController@primeravez');
-      // Route::get('/perdon','Website\HomeController@perdon');
-      // Route::get('/renovacion','Website\HomeController@renovacion');
-      // Route::get('/emergencia','Website\HomeController@emergencia');
-      Route::get('/construccion','Website\HomeController@construccion');
+    Route::prefix('productos')->group(function(){
+      Route::get('/','Website\ProductosController@list')->where(['tipo' => '[a-zA-Z0-9]+']);
+      Route::get('/{id}','Website\ProductosController@show')->where(['id' => '[0-9]+']);
+      Route::get('/{tipo}/categoria/{categoria_id}','Website\ProductosController@list_by_cat')->where(['tipo' => '[a-zA-Z0-9]+','categoria_id' => '[0-9]+']);
+      Route::get('/{tipo}/subcategoria/{subcategoria_id}','Website\ProductosController@list_by_subcat')->where(['tipo' => '[a-zA-Z0-9]+','categoria_id' => '[0-9]+']);
+      Route::get('/{tipo}','Website\ProductosController@list_by_tipo')->where(['tipo' => '[a-zA-Z0-9]+']);
+
     });
 
     Route::get('/p{id}/{slug?}', 'Website\PaginaDinamicaController@index')->where(['id' => '[0-9]+']);
@@ -152,12 +151,19 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
     Route::get('/clearcache','Website\HomeController@clearcache');
     /*Route::get('/testmodelos','TestController@testmodelos');*/
 
-    Route::prefix('login')->group(function(){
-      Route::get('/','Website\LoginController@login');
-    });
+    // Route::prefix('login')->group(function(){
+    //   Route::get('/','Website\LoginController@login');
+    // });
+
+    Route::prefix('carrito')->group(function(){
+    Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+    Route::get('/{ckey}/resumen','Website\PedidosController@ShowResumenByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
   });
 
-  Route::get('/ajax/captcha','Website\AjaxController@captcha');
-  Route::post('/ajax/{control}/{action}','Website\AjaxController@call')->where(['control' => '[a-zA-Z0-9]+','action' => '[a-zA-Z0-9]+']);;
-  Route::post('/uploader','ApiController@uploader');
+    Route::get('/ajax/captcha','Website\AjaxController@captcha');
+    Route::post('/ajax/{control}/{action}','Website\AjaxController@call')->where(['control' => '[a-zA-Z0-9]+','action' => '[a-zA-Z0-9]+']);;
+    Route::post('/uploader','ApiController@uploader');
+  });
+
+
 });

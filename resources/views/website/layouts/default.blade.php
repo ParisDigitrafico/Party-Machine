@@ -28,6 +28,8 @@
 window.laravel = {!! json_encode([
                   'token' => csrf_token(),
                  ]) !!};
+
+componente_plugins.init();
 </script>
 
 @stack("js")
