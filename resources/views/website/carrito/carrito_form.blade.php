@@ -144,7 +144,7 @@
                                         data-mdb-ripple-color="dark">Register</button> -->
 
                                     <h6><a href="#" class="text-body btnSiguiente"
-                                            data-cliente_id="{{ intval(session('cliente_id')) }}"
+                                            data-cliente_id="{{ intval(session('usuario_id')) }}"
                                             data-url="/carrito/{{ $data['ckey'] }}/resumen/">
                                             <span>Siguiente Paso</span><i class="fas fa-long-arrow-alt-right ms-2"></i>
                                         </a>

@@ -131,7 +131,7 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
 
   Route::prefix('/')->group(function(){
     Route::get('/','Website\HomeController@index');
-    Route::get('/maquina-invitaciones','Website\HomeController@maquina_invitaciones');
+    Route::get('/maquina-de-invitaciones','Website\HomeController@maquina_invitaciones');
     Route::get('/invitaciones-web','Website\HomeController@invitaciones_web');
     Route::get('/contacto','Website\HomeController@contacto');
     Route::get('/nosotros','Website\HomeController@nosotros');

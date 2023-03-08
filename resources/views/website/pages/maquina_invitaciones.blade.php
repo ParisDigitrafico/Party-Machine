@@ -4,17 +4,31 @@
 .card-container {
     display: flex;
 }
-
 .card-info {
     width: calc(100% - 40px);
     font-size: 14px;
     padding-top: 14px;
     line-height: 1.4;
 }
-
 .icon_cart {
     width: 40px;
 }
+.card-img
+{
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.card-img img
+{
+    transition: all .9s ease;
+}
+.card-img:hover img
+{
+    opacity: 0.7;
+    transform: scale(1.15);
+}
+
 </style>
 
 @push('main')
@@ -39,38 +53,35 @@
 
         <!-- Search Filter Start -->
         <div class="col-lg-12">
-            <form class="form-search-filter">
-                <div class="inner-form">
-                    <div class="input-field first-wrap">
-                        <div class="input-select">
-                            <select class="select-category">
-                                <option selected disabled placeholder="">Category</option>
-                                <option>New Arrivals</option>
-                                <option>Sale</option>
-                                <option>Ladies</option>
-                                <option>Men</option>
-                                <option>Clothing</option>
-                                <option>Footwear</option>
-                                <option>Accessories</option>
-                            </select>
+            <div class="d-flex justify-content-center pb-5">
+                <form class="form-search-filter">
+                    <div class="inner-form">
+                        <div class="input-field first-wrap">
+                            <div class="input-select">
+                                <select class="select-category">
+                                    <option selected disabled placeholder="">Categoria</option>
+                                    <option>Fiesta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-field second-wrap">
+                            <input id="search" type="text" placeholder="Buscar" />
+                        </div>
+                        <div class="input-field third-wrap">
+                            <button class="btn-search" type="button">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="input-field second-wrap">
-                        <input id="search" type="text" placeholder="Enter Keywords?" />
-                    </div>
-                    <div class="input-field third-wrap">
-                        <button class="btn-search" type="button">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+
+            </div>
         </div>
         <!-- Search Filter End -->
 
         <!-- Card Start -->
         <div class="col-lg-12">
-            <div class="row">
+            <div class="row justify-content-center">
                 @foreach($data as $item)
                 <div class="card card_producto" style="width: 16rem;padding: 0;margin: 1rem 1rem;border: none;">
                     <div class="card-img">

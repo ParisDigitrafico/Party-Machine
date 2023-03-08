@@ -19,21 +19,25 @@
         color: #FF800F;
         box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.2);
     }
+    .logo-footer
+    {
+        margin-top: -30px;
+    }
 </style>
 <div class="container-fluid bg-white footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
+    <div class="container-xl py-5">
         <div class="row g-5">
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <div>
-                    <img class="w-25 mb-4" src="/static/sistema/images/logo.png" alt="">
+                    <img class="w-50 mb-4 logo-footer" src="/static/sistema/images/logo.png" alt="">
                 </div>
                 <div>
-                    <button class="btn-sm btn-footer text-uppercase" type="buttom">Maquina de invitaciones</button>
+                    <a href="/maquina-de-invitaciones"><button class="btn-sm btn-footer text-uppercase" type="buttom">Maquina de invitaciones</button></a>
                 </div>
                 
             </div>
 
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-4 col-md-3">
                 <h5 class="mb-4 text-uppercase">Informacion</h5>
                 <div class="d-flex">
                     <div class="w-50">
@@ -47,22 +51,22 @@
                 </div>
 
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-2 col-md-3">
                 <h5 class="mb-4 text-uppercase">Contacto</h5>
                 <div>
                     <div>
                         <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p><i class="fa fa-phone-alt me-3"></i>999 999 9999</p>
                     </div>
-                    <div>
+                    <!-- <div>
                         <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    </div>
+                    </div> -->
                 </div>
                 
             </div>
 
             <div class="col-lg-3 col-md-3">
-                <h5 class="mb-5 text-center text-uppercase">Nuestras redes</h5>
+                <h5 class="mb-4 text-center text-uppercase">Nuestras redes</h5>
                 <div class="d-flex justify-content-center">
                     <a class="btn btn-square rounded-circle me-1" href=""><i class="fab fa-facebook-f"></i></a>
                     <a class="btn btn-square rounded-circle me-1" href=""><i class="fab fa-twitter"></i></a>
