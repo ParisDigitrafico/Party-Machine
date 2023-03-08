@@ -22,13 +22,13 @@ class ProductosController extends MController
   {
     $response = array();
 
-    $pagina = WebPagina::where("clave","PLANTILLAS")->first();
-
-    $response["categorias"] = GenCategoria::get();
+    $pagina = WebPagina::where("clave","PRODUCTOS")->first();
 
     $response["page_title"] = $pagina->nombre;
 
     $response["pagina"] = $pagina;
+
+    $response["categorias"] = GenCategoria::get();
 
     $response["data"] = SppProducto::filterStatus(1)->get();
 

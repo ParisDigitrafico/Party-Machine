@@ -9,10 +9,8 @@ use App\Helpers\HtmlHelper;
 use App\Helpers\Normalizador;
 
 use App\Models\AccUsuario;
-
 use App\Models\WebPagina;
-use App\Models\SppPlantilla;
-
+use App\Models\SppProducto;
 use App\Models\GenCategoria;
 
 class HomeController extends MController
@@ -39,13 +37,44 @@ class HomeController extends MController
   {
     $response = array();
 
-        $pagina = WebPagina::where("clave","MAQUINA DE INVITACIONES")->first();
+    $pagina = WebPagina::where("clave","MAQUINA DE INVITACIONES")->first();
 
     $response["page_title"] = $pagina->nombre;
 
     $response["pagina"] = $pagina;
 
+    $response["categorias"] = GenCategoria::get();
+
+    $response["data"] = SppProducto::where("tipo","plantilla")->filterStatus(1)->get();
+
     return view('website.pages.maquina_invitaciones', $response)->render();
+  }
+
+  public function invitaciones_web(Request $request)
+  {
+    $response = array();
+
+    $pagina = WebPagina::where("clave","INVITACIONES WEB")->first();
+
+    $response["page_title"] = $pagina->nombre;
+
+    $response["pagina"] = $pagina;
+
+    return view('website.pages.invitaciones_web', $response)->render();
+  }
+
+
+  public function nosotros(Request $request)
+  {
+    $response = array();
+
+        $pagina = WebPagina::where("clave","NOSOTROS")->first();
+
+    $response["page_title"] = $pagina->nombre;
+
+    $response["pagina"] = $pagina;
+
+    return view('website.pages.nosotros', $response)->render();
   }
 
   public function contacto(Request $request)
@@ -59,19 +88,6 @@ class HomeController extends MController
     $response["pagina"] = $pagina;
 
     return view('website.pages.contacto', $response)->render();
-  }
-
-  public function nosotros(Request $request)
-  {
-    $response = array();
-
-        $pagina = WebPagina::where("clave","NOSOTROS")->first();
-
-    $response["page_title"] = $pagina->nombre;
-
-    $response["pagina"] = $pagina;
-
-    return view('website.pages.nosotros', $response)->render();
   }
 
 }

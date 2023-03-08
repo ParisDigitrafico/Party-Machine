@@ -22,4 +22,5 @@
 
 <!-- Template Stylesheet -->
 <link rel="stylesheet" href="/static/website/template/aircon/custom_css/style.css" type="text/css">
+<link rel="stylesheet" href="/static/website/css/search.css" type="text/css">
 
