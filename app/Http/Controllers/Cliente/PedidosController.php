@@ -12,15 +12,8 @@ use App\Helpers\MensajeNotificacion;
 use App\Models\AccUsuario;
 
 use App\Models\SppPedido;
-
-use App\Models\LocEstado;
-use App\Models\LocMunicipio;
-use App\Models\LocColonia;
-
 use App\Models\GenCategoria;
 
-use App\Models\TmpDisponibilidad;
-use App\Models\TmpAsignacion;
 
 
 class PedidosController extends MController
@@ -36,32 +29,7 @@ class PedidosController extends MController
 
     $objPedido  = new SppPedido;
 
-    $query = $objPedido->where('id', '!=', '0');
-    $query = $query->where("es_pagado", 0);
-    $query = $query->where("idsadcliente", session("cliente_id"));
-    $query = $query->orderBy("id","DESC");
-
-    /*if(!empty($cAux = $request->get('keyword')))
-    {
-      $query = $query->where('nombreProducto', 'like', '%'.$cAux.'%');
-      $query = $query->orWhere('codigoRelacionado', 'like', '%'.$cAux.'%');
-    }*/
-
-    /*$data = FbzPedido::where("es_carrito", 0)->where("cliente_id",session("cliente_id"))->get();     */
-    $per_page = intval($request->get("per_page"));
-    $per_page = $per_page ?: 10;
-
-    $results = $query->paginate($per_page);
-
-    $response["page"]        = $results->currentPage();
-    $response["per_page"]    = $results->perPage();
-    $response["total"]       = $results->total();
-    $response["total_pages"] = ceil($response["total"] / $response["per_page"]);
-    $response["first_item"]  = $results->firstItem();
-    $response["last_item"]   = $results->lastItem();
-    $response["data"]        = $results->items();
-
-    return view('cliente.pedidos.pedido_list', $response)->render();
+    return view('cliente.pages.pedidos.pedido_list', $response)->render();
   }
 
   public function show(Request $request, $id)

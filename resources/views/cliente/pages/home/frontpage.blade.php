@@ -11,7 +11,7 @@
             </div>
 
             <div class="col-12 col-sm-6 col-lg-4 mb-2">
-            <a href="" style="color: black;text-decoration: none;">
+            <a href="/cliente/pedidos" style="color: black;text-decoration: none;">
                 <div class="card flex-row" style="width:100%; border-radius: 10px;">
                 <div class="card-body">
                 <h5 class="card-title"><i class="icon-shopping-bag"></i>Mis Pedidos</h5>

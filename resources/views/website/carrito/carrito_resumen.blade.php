@@ -151,7 +151,7 @@
                                 <!--<option value="">-- Seleccione Forma de Pago --</option>-->
                                 <!--<option value="tarjeta">Pago con Tarjeta</option>-->
                                 <option value="">-- Seleccione --</option>
-                                <option value="1">Efectivo</option>
+                                <!-- <option value="1">Efectivo</option> -->
                                 <option value="4">Terminal Electrónica (Tarjeta Débito)</option>
                                 <option value="5">Terminal Electrónica (Tarjeta Crédito)</option>
                             </select>
@@ -187,10 +187,9 @@
                 </div>-->
 
                         <div class="form-group">
-                            <a class="btn btn-primary">
-                                <span>Verificar existencias y finalizar</span>
-                                <button class="btn-block btnVerificarFinalizar" data-idpedido="{{ $data['id'] }}"
-                                    data-ckey="{{ $ckey }}"></button>
+                            <a class="btn btn-primary btnComprar" data-pedido_id="{{ $data['id'] }}" data-ckey="{{ $ckey }}">
+                                <span>Comprar</span>
+                                <!-- <i class="fas fa-long-arrow-alt-right ms-2"></i> -->
                             </a>
                         </div>
 
@@ -206,83 +205,6 @@
 
 @push("js")
 <script type="text/javascript">
-$('.checkradios').checkradios({
-    checkbox: {
-        iconClass: 'fas fa-circle'
-    },
 
-    radio: {
-        iconClass: 'fas fa-circle'
-    }
-});
-
-$(document).on("click", ".btnEdit", function(evt) {
-    evt.preventDefault();
-
-    $btnEdit = $(this);
-
-    codigoSucursal = $btnEdit.data("codigo-sucursal") || "";
-    codigoSucursal = codigoSucursal.toString();
-
-    cTxtInitialBtn = $btnEdit.text();
-    $btnEdit.text("Cargando...").prop('disabled', true);
-
-    var ajx = $.get('/sucursales/mapa/', {
-        'codigoSucursal': codigoSucursal
-    }, null, 'html');
-
-    ajx.done(function(response) {
-        bootstrap.showModal({
-            title: 'Seleccione una sucursal',
-            body: response,
-            footer: '<button type="button" class="btn btn-link" data-bs-dismiss="modal">Cancel</button>',
-            onShown: function(modal) {
-                $modal = $(modal.element);
-
-                componente_mapa.load_mapa_sucursales(true);
-
-                $(document).off("click", ".btnSel").on("click", ".btnSel", function(evt) {
-                    evt.preventDefault();
-
-                    $btnSel = $(this);
-
-                    iAux = $btnSel.data("sucursal-codigo") || "";
-                    iAux = parseInt(iAux);
-
-                    if (iAux > 0) {
-                        $btnEdit.data("codigo-sucursal", iAux);
-
-                        cSucursalNombre = $btnSel.data("sucursal-nombre") || "";
-                        cSucursalDir = $btnSel.data("sucursal-direccion") || "";
-                        cSucursalCp = $btnSel.data("sucursal-codigo-postal") || "";
-
-                        $("#codigoSucursal").val(iAux);
-                        $("#farmacia_nombre").html("<b>" + cSucursalNombre +
-                            "</b>");
-                        $("#farmacia_direccion").html("<b>Dirección:</b> " +
-                            cSucursalDir);
-                        $("#farmacia_codigo_postal").html("<b>Código Postal:</b> " +
-                            cSucursalCp);
-
-                        util.setStorage("sucursal_codigo", iAux, 60);
-                        util.setStorage("sucursal_nombre", cSucursalNombre, 60);
-                        util.setStorage("sucursal_direccion", cSucursalDir, 60);
-                        util.setStorage("sucursal_codigo_postal", cSucursalCp, 60);
-                    }
-
-                    modal.hide();
-                });
-
-            }
-        });
-
-        ajx.always(function() {
-            $btnEdit.text("Buscar").prop('disabled', false);
-        });
-
-
-    });
-
-});
 </script>
 @endpush
