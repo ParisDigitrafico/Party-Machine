@@ -131,12 +131,6 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
   });
 
   Route::prefix('/')->group(function(){
-    Route::get('/','Website\HomeController@index');
-    Route::get('/maquina-de-invitaciones','Website\HomeController@maquina_invitaciones');
-    Route::get('/invitaciones-web','Website\HomeController@invitaciones_web');
-    Route::get('/contacto','Website\HomeController@contacto');
-    Route::get('/nosotros','Website\HomeController@nosotros');
-
 
     Route::prefix('productos')->group(function(){
       Route::get('/','Website\ProductosController@list')->where(['tipo' => '[a-zA-Z0-9]+']);
@@ -144,27 +138,34 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::get('/{tipo}/categoria/{categoria_id}','Website\ProductosController@list_by_cat')->where(['tipo' => '[a-zA-Z0-9]+','categoria_id' => '[0-9]+']);
       Route::get('/{tipo}/subcategoria/{subcategoria_id}','Website\ProductosController@list_by_subcat')->where(['tipo' => '[a-zA-Z0-9]+','categoria_id' => '[0-9]+']);
       Route::get('/{tipo}','Website\ProductosController@list_by_tipo')->where(['tipo' => '[a-zA-Z0-9]+']);
-
     });
 
-    Route::get('/p{id}/{slug?}', 'Website\PaginaDinamicaController@index')->where(['id' => '[0-9]+']);
-
-    Route::get('/clearcache','Website\HomeController@clearcache');
-    /*Route::get('/testmodelos','TestController@testmodelos');*/
-
-    // Route::prefix('login')->group(function(){
-    //   Route::get('/','Website\LoginController@login');
-    // });
-
     Route::prefix('carrito')->group(function(){
-    Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
-    Route::get('/{ckey}/resumen','Website\PedidosController@ShowResumenByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
-  });
+      Route::get('/{ckey}','Website\PedidosController@ShowCarritoByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+      Route::get('/{ckey}/resumen','Website\PedidosController@ShowResumenByCKey')->where(['ckey' => '[a-zA-Z0-9]+']);
+    });
 
-    Route::get('/ajax/captcha','Website\AjaxController@captcha');
-    Route::post('/ajax/{control}/{action}','Website\AjaxController@call')->where(['control' => '[a-zA-Z0-9]+','action' => '[a-zA-Z0-9]+']);;
-    Route::post('/uploader','ApiController@uploader');
-  });
+    Route::prefix('/')->group(function(){
+      Route::get('/','Website\HomeController@index');
+      Route::get('/maquina-de-invitaciones','Website\HomeController@maquina_invitaciones');
+      Route::get('/invitaciones-web','Website\HomeController@invitaciones_web');
+      Route::get('/contacto','Website\HomeController@contacto');
+      Route::get('/nosotros','Website\HomeController@nosotros');
 
+      Route::get('/p{id}/{slug?}', 'Website\PaginaDinamicaController@index')->where(['id' => '[0-9]+']);
+
+      Route::get('/clearcache','Website\HomeController@clearcache');
+      /*Route::get('/testmodelos','TestController@testmodelos');*/
+
+      // Route::prefix('login')->group(function(){
+      //   Route::get('/','Website\LoginController@login');
+      // });
+
+      Route::get('/ajax/captcha','Website\AjaxController@captcha');
+      Route::post('/ajax/{control}/{action}','Website\AjaxController@call')->where(['control' => '[a-zA-Z0-9]+','action' => '[a-zA-Z0-9]+']);;
+      Route::post('/uploader','ApiController@uploader');
+    });
+
+  });
 
 });
