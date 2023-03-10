@@ -1,6 +1,6 @@
 <!-- Navbar Start -->
 <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top px-4 px-lg-5">
         <a href="/" class="navbar-brand d-flex align-items-center">
             <img class="img-fluid" src="/static/sistema/images/logo.png" alt="">
         </a>
@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav mx-auto pe-4 py-3 py-lg-0">
+            <div class="navbar-nav pe-4 py-3 py-lg-0 me-5 m-auto">
                 @php
                 $arrMenu = get_menu_website();
                 @endphp
@@ -19,8 +19,7 @@
                 $Menu["nombre"] = $Menu["nombre_" . app()->getLocale()] ?? $Menu["nombre"];
                 @endphp
 
-                <a href="{{ get_locale_url($Menu['url']) }}"
-                    class="nav-item nav-link text-uppercase">{{ $Menu["nombre"] }}</a>
+                <a href="{{ get_locale_url($Menu['url']) }}" class="nav-item nav-link text-uppercase {{ $Menu["nombre"] }}">{{ $Menu["nombre"] }}</a>
 
                 @endforeach
             </div>

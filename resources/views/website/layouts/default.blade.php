@@ -15,23 +15,22 @@
 </head>
 
 <body>
+    @include("website.partials.headers.header")
 
-@include("website.partials.headers.header")
+    @stack("main")
 
-@stack("main")
+    @include("website.partials.footers.footer")
 
-@include("website.partials.footers.footer")
+    @include("website.generico.scripts")
 
-@include("website.generico.scripts")
+    <script type="text/javascript">
+    window.laravel = {!! json_encode([
+                    'token' => csrf_token(),
+                    ]) !!};
 
-<script type="text/javascript">
-window.laravel = {!! json_encode([
-                  'token' => csrf_token(),
-                 ]) !!};
+    componente_plugins.init();
+    </script>
 
-componente_plugins.init();
-</script>
-
-@stack("js")
+    @stack("js")
 </body>
 </html>

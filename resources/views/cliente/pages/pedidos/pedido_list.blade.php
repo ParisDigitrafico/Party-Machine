@@ -8,9 +8,6 @@
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>No. Pedido</th>
-                    <th>Forma Entrega</th>
-                    <th>Código Guía</th>
                     <th>Estado</th>
                     <th>Total</th>
                     <th>Forma Pago</th>
@@ -18,15 +15,15 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($data as $item)
                 <tr>
-                    <td>Dom</td>
-                    <td>6000</td>
+                    <td>{{ fechaespaniol($item->created_at) }}</td>
+                    <td></td>
+                    <td>${{ $item->total }}&nbsp;MXN</td>
+                    <td></td>
+                    <td></td>
                 </tr>
-                <tr class="active-row">
-                    <td>Melissa</td>
-                    <td>5150</td>
-                </tr>
-                <!-- and so on... -->
+                @endforeach
             </tbody>
         </table>
     </div>

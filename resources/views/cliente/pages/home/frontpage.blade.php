@@ -15,7 +15,7 @@
                 <div class="card flex-row" style="width:100%; border-radius: 10px;">
                 <div class="card-body">
                 <h5 class="card-title"><i class="icon-shopping-bag"></i>Mis Pedidos</h5>
-                <p class="card-text">Brinda seguimiento a tus tramites, revisa las observaciones de tu asesor y mantente informado.</p>
+                <p class="card-text">Brinda seguimiento a tus compras.</p>
                 <a href="" class="btn border">
                     <span>Ir</span>
                 </a>
@@ -31,7 +31,7 @@
             <!--<img class="card-img-top" src="..." alt="Card image cap"> -->
             <div class="card-body">
             <h5 class="card-title"><i class="icon-lock"></i> Perfil y seguridad</h5>
-            <p class="card-text">Cambiar correo electrónico, contraseña y datos personales.</p>
+            <p class="card-text">Cambiar datos personales.</p>
             <a href="/cliente/cuenta/" class="btn">
                             <span>Ir</span>
                 </a>

@@ -1,0 +1,33 @@
+body
+{
+    position: relative;
+}
+
+.wrapper
+{
+    background-image: url("/static/website/images/confeti.png");
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+}
+
+.navbar-nav a
+{
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: bold !important;
+}
+.navbar-nav .Maquina
+{
+    background-color: #FF800F !important;
+    color: #FFF !important;
+    border-radius: 1.5rem;
+    padding: 13px 15px !important;
+    
+}
+
+.first-section
+{
+    height: 100vh;
+}
+
