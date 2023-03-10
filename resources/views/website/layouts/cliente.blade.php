@@ -23,6 +23,8 @@
   height: auto;
 }
 </style>
+
+@stack('css') 
 </head>
 
 <body>

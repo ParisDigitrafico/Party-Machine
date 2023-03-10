@@ -1,9 +1,15 @@
 @extends('website.layouts.cliente')
 
-@push("main")
+@push('main')
+<div class="content dash pt-4">
+  <div class="container">
+    <div class="row d-flex">
 
-<div class="col-lg-12">
-    <div class="container py-5">
+      <div class="col-12 py-4">
+          <h3>Mis Pedidos</h3>
+      </div>
+
+      <div class="col-12 mb-2">
         <table class="table-borderless m-auto">
             <thead>
                 <tr>
@@ -26,7 +32,10 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</div>
 
+      </div>
+
+    </div>
+  </div>
+</div>
 @endpush
