@@ -131,7 +131,6 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
   });
 
   Route::prefix('/')->group(function(){
-
     Route::prefix('productos')->group(function(){
       Route::get('/','Website\ProductosController@list')->where(['tipo' => '[a-zA-Z0-9]+']);
       Route::get('/{id}','Website\ProductosController@show')->where(['id' => '[0-9]+']);
