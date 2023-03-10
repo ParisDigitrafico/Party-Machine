@@ -47,7 +47,7 @@ class LoginController extends Controller
       return redirect()->to("/cliente/");
     }
 
-    return view('cliente.pages.login.login_form', $response)->render();
+    return view('cliente.login.login_form', $response)->render();
   }
 
   public function process($usuario_id)
@@ -209,12 +209,12 @@ class LoginController extends Controller
         header("location:/cliente/login/forgot/?" . http_build_query($response));
         exit;
 
-        return view('cliente.pages.login.login_forgot', $response)->render();
+        return view('cliente.login.login_forgot', $response)->render();
       }
     }
     else
     {
-      return view('cliente.pages.login.login_forgot', $response)->render();
+      return view('cliente.login.login_forgot', $response)->render();
     }
   }
 
@@ -472,7 +472,7 @@ class LoginController extends Controller
     }
     else
     {
-      return view('cliente.pages.login.register_form', $response)->render();
+      return view('cliente.login.register_form', $response)->render();
     }
 
   }
@@ -549,7 +549,7 @@ class LoginController extends Controller
   {
     $response = array();
 
-    return view('cliente.pages.login.message_simple', $response)->render();
+    return view('cliente.login.message_simple', $response)->render();
   }
 
   public function redirect(Request $request, $provider)

@@ -116,20 +116,17 @@ Route::prefix(get_locale_val(Request::segment(1)))->group(function(){
       Route::any('/register','Cliente\LoginController@register');
       Route::get('/confirm/{ckey}','Cliente\LoginController@confirmregister')->where(['ckey' => '[a-zA-Z0-9]+']);
     });
-    
-    Route::get('/','Cliente\HomeController@index');
-    Route::any('/cuenta','Cliente\HomeController@cuenta_form');
-    Route::get('/message','Cliente\LoginController@print_message');
-    
-    Route::get('/pedidos','Cliente\PedidosController@index');
-    Route::get('/pedidos/{id}','Cliente\PedidosController@show')->where(['id' => '[0-9]+']);
-    Route::post('/pedidos/{id}/generar','Cliente\PedidosController@generarpedido')->where(['id' => '[0-9]+']);
 
-    
+    Route::prefix('pedidos')->group(function(){
+      Route::get('/','Cliente\PedidosController@index');
+      Route::get('/{id}','Cliente\PedidosController@show')->where(['id' => '[0-9]+']);
+      Route::post('/{id}/generar','Cliente\PedidosController@generarpedido')->where(['id' => '[0-9]+']);
+    });
 
-    Route::prefix('visas')->group(function(){
-      Route::get('/','Cliente\VisasController@list');
-      Route::get('/pais/{pais}','Cliente\VisasController@get_visas_por_pais');
+    Route::prefix('/')->group(function(){
+      Route::get('/','Cliente\HomeController@index');
+      Route::any('/cuenta','Cliente\HomeController@cuenta_form');
+      Route::get('/message','Cliente\LoginController@print_message');
     });
   });
 

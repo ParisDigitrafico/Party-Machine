@@ -24,7 +24,7 @@ class HomeController extends MController
   {
     $response = array();
 
-    return view('cliente.pages.home.frontpage', $response)->render();
+    return view('cliente.custom.frontpage', $response)->render();
   }
 
   public function cuenta_form(Request $request)
@@ -88,7 +88,7 @@ class HomeController extends MController
 
       $response["data"] = $usuario;
 
-      return view('cliente.pages.cuenta.cuenta_form', $response)->render();
+      return view('cliente.cuenta.cuenta_form', $response)->render();
     }
 
     abort(403);
