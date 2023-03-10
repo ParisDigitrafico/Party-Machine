@@ -4,8 +4,7 @@
 <div class="content dash pt-4">
     <div class="container">
         <div class="row d-flex">
-
-
+          
             <div class="col-12 py-4">
                 <h3>Mi Perfil</h3>
             </div>
