@@ -1,5 +1,4 @@
 <!-- Navbar Start -->
-<div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top px-4 px-lg-5">
         <a href="/" class="navbar-brand d-flex align-items-center">
             <img class="img-fluid" src="/static/sistema/images/logo.png" alt="">
@@ -56,5 +55,4 @@
             </div>
         </div>
     </nav>
-</div>
 <!-- Navbar End -->

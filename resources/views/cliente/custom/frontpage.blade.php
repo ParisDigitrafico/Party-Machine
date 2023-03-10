@@ -4,8 +4,7 @@
 <div class="content dash pt-4">
     <div class="container">
         <div class="row d-flex">
-
-
+          
             <div class="col-12 py-4">
                 <h3>Mi Perfil</h3>
             </div>
@@ -24,7 +23,6 @@
             </a>
             </div>
 
-
             <div class="col-12 col-sm-6 col-lg-4 mb-2">
             <a href="/cliente/cuenta/" style="color: black;text-decoration: none;">
             <div class="card" style="width:100%; border-radius: 10px;">
@@ -42,7 +40,7 @@
 
             <div class="col-12 col-sm-6 col-lg-4 mb-2">
             <a href="/cliente/login/close/" style="color: black;text-decoration: none;">
-            <div class="card" style="width:100%; margin-top: 14px;border-radius: 10px;">
+            <div class="card" style="width:100%;border-radius: 10px;">
             <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
             <div class="card-body">
             <h5 class="card-title"><i class="icon-sign-out"></i> Cerrar sesión</h5>

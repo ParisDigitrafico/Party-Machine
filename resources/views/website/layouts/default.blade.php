@@ -10,8 +10,14 @@
 
 {!! $page_metas !!}
 
-@include("website.generico.styles")
+<style type="text/css">
+.navbar.shadow-sm{
+  background-color:white;
+}
 
+</style>
+
+@include("website.generico.styles")
 </head>
 
 <body style="background-color:grey;">
