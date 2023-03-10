@@ -30,7 +30,7 @@ class HomeController extends MController
 
     $response["pagina"] = $pagina;
 
-    return view('website.pages.frontpage', $response)->render();
+    return view('website.custom.frontpage', $response)->render();
   }
 
   public function maquina_invitaciones(Request $request)
@@ -47,7 +47,7 @@ class HomeController extends MController
 
     $response["data"] = SppProducto::where("tipo","plantilla")->filterStatus(1)->get();
 
-    return view('website.pages.maquina_invitaciones', $response)->render();
+    return view('website.custom.maquina_invitaciones', $response)->render();
   }
 
   public function invitaciones_web(Request $request)
@@ -60,7 +60,7 @@ class HomeController extends MController
 
     $response["pagina"] = $pagina;
 
-    return view('website.pages.invitaciones_web', $response)->render();
+    return view('website.custom.invitaciones_web', $response)->render();
   }
 
 
@@ -74,7 +74,7 @@ class HomeController extends MController
 
     $response["pagina"] = $pagina;
 
-    return view('website.pages.nosotros', $response)->render();
+    return view('website.custom.nosotros', $response)->render();
   }
 
   public function contacto(Request $request)
@@ -87,7 +87,7 @@ class HomeController extends MController
 
     $response["pagina"] = $pagina;
 
-    return view('website.pages.contacto', $response)->render();
+    return view('website.custom.contacto', $response)->render();
   }
 
 }

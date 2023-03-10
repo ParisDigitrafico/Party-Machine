@@ -22,9 +22,11 @@ body
 
 .text-invitaciones-digitales
 {
-    font-size: 48px;
-    font-family: "pacifico";
+    font-family: "Pacifico";
+    font-size: 5rem;
     color: #00A4FF;
+    line-height: 1;
+    margin-bottom: 2.5rem;
 }
 
 .btnPlantilla
@@ -36,7 +38,7 @@ body
     border: none;
     text-transform: capitalize;
     letter-spacing: 1px;
-
+    box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.2);
 }
 
 

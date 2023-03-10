@@ -6,8 +6,12 @@
 <div class="container-fluid p-0 mb-5">
     <div class="container-xxl py-5">
         <div class="col-lg-6">
-            <p class="text-capitalize mb-2 text-invitaciones-digitales">invitaciones</br>digitales</p>
-            <p> Lorem ipsum dolor sit amet consectetur.</p>
+            <h1 class="text-capitalize text-invitaciones-digitales">invitaciones <br>
+                digitales
+            </h1>
+            <p> Lorem ipsum dolor sit <br> 
+                amet consectetur.
+            </p>
             <a href="/maquina-de-invitaciones"><button class="btnPlantilla">ver plantillas</button></a>
         </div>
         <div class="col-lg-6"></div> 
