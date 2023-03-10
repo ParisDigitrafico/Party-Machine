@@ -14,23 +14,26 @@
 
 </head>
 
-<body>
-    @include("website.partials.headers.header")
+<body style="background-color:grey;">
 
-    @stack("main")
+<div class="wrapper" style="position:relative; max-width:1920px; margin:0 auto; background-color:white;">
+@include("website.partials.headers.header")
 
-    @include("website.partials.footers.footer")
+@stack("main")
 
-    @include("website.generico.scripts")
+@include("website.partials.footers.footer")
+</div>
 
-    <script type="text/javascript">
-    window.laravel = {!! json_encode([
-                    'token' => csrf_token(),
-                    ]) !!};
+@include("website.generico.scripts")
 
-    componente_plugins.init();
-    </script>
+<script type="text/javascript">
+window.laravel = {!! json_encode([
+                'token' => csrf_token(),
+                ]) !!};
 
-    @stack("js")
+componente_plugins.init();
+</script>
+
+@stack("js")
 </body>
 </html>

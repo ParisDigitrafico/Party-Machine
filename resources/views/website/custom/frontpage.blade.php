@@ -5,16 +5,20 @@
 <!-- First Section -->
 <div class="container-fluid p-0 mb-5">
     <div class="container-xxl py-5">
-        <div class="col-lg-6">
+      <div class="row p-5">
+        <div class="col-12 col-lg-6">
             <h1 class="text-capitalize text-invitaciones-digitales">invitaciones <br>
                 digitales
             </h1>
-            <p> Lorem ipsum dolor sit <br> 
+            <p> Lorem ipsum dolor sit <br>
                 amet consectetur.
             </p>
             <a href="/maquina-de-invitaciones"><button class="btnPlantilla">ver plantillas</button></a>
         </div>
-        <div class="col-lg-6"></div> 
+        <div class="col-12 col-lg-6"></div>
+
+      </div>
+
     </div>
 </div>
 <!-- End Section -->
@@ -92,7 +96,6 @@
 </div>
 <!-- About End -->
 
-
 <!-- Facts Start -->
 <div class="container-fluid facts my-5 py-5" data-parallax="scroll"
     data-image-src="/static/website/template/aircon/img/carousel-1.jpg">
@@ -118,7 +121,6 @@
     </div>
 </div>
 <!-- Facts End -->
-
 
 <!-- Features Start -->
 <div class="container-xxl py-5">
@@ -170,7 +172,6 @@
 </div>
 <!-- Features End -->
 
-
 <!-- Service Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -206,7 +207,6 @@
     </div>
 </div>
 <!-- Service End -->
-
 
 <!-- Quote Start -->
 <div class="container-fluid overflow-hidden my-5 px-lg-0">
@@ -269,7 +269,6 @@
     </div>
 </div>
 <!-- Quote End -->
-
 
 <!-- Team Start -->
 <div class="container-xxl py-5">
@@ -359,7 +358,6 @@
 </div>
 <!-- Team End -->
 
-
 <!-- Testimonial Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -419,9 +417,6 @@
     </div>
 </div>
 <!-- Testimonial End -->
-
-
-
 
 @endpush
 
