@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 body
 {
     position: relative;
@@ -14,8 +16,29 @@ body
     background-color: #FF800F !important;
     color: #FFF !important;
     border-radius: 1.5rem;
-    padding: 13px 15px !important;
+    padding: 10px 15px !important;
     
 }
+
+.text-invitaciones-digitales
+{
+    font-size: 48px;
+    font-family: "pacifico";
+    color: #00A4FF;
+}
+
+.btnPlantilla
+{
+    background-color: #FF800F;
+    padding: 5px 30px;
+    border-radius: 2rem;
+    color: #FFF;
+    border: none;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+
+}
+
+
 
 
