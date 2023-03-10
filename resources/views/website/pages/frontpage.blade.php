@@ -2,16 +2,17 @@
 
 @push('main')
 
-<div class="wrapper">
-
-    <!-- First Section -->
+<!-- First Section -->
 <div class="container-fluid p-0 mb-5">
-    <div class="first-section">
-        
+    <div class="container-xxl py-5">
+        <div class="col-lg-6">
+            <h1 class="text-capitalize mb-2" >invitaciones</br>digitales</h1>
+            <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+            <button>ver plantillas</button>
+        </div>
+        <div class="col-lg-6"></div> 
     </div>
 </div>
-</div>
-
 <!-- End Section -->
 
 <!-- About Start -->

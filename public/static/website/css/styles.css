@@ -3,14 +3,6 @@ body
     position: relative;
 }
 
-.wrapper
-{
-    background-image: url("/static/website/images/confeti.png");
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-}
-
 .navbar-nav a
 {
     font-size: 14px;
@@ -26,8 +18,4 @@ body
     
 }
 
-.first-section
-{
-    height: 100vh;
-}
 
