@@ -13,8 +13,6 @@ use App\Models\AccUsuario;
 use App\Models\SppPedido;
 use App\Models\GenCategoria;
 
-
-
 class PedidosController extends MController
 {
   public function __construct()
@@ -46,7 +44,7 @@ class PedidosController extends MController
     // $response["last_item"]   = $results->lastItem();
     // $response["data"]        = $results->items();
 
-    return view('cliente.pages.pedidos.pedido_list', $response)->render();
+    return view('cliente.pedidos.pedido_list', $response)->render();
   }
 
   public function show(Request $request, $id)
